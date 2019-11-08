@@ -1,0 +1,200 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "8ba36a127501f6c3c48c2b60fdd01357",
+    "entities": [
+      {
+        "tableName": "auth_token",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`account_pk` INTEGER, `token` TEXT, PRIMARY KEY(`account_pk`), FOREIGN KEY(`account_pk`) REFERENCES `account_properties`(`pk`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "account_pk",
+            "columnName": "account_pk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "account_pk"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "account_properties",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "account_pk"
+            ],
+            "referencedColumns": [
+              "pk"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "account_properties",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER NOT NULL, `email` TEXT NOT NULL, `username` TEXT NOT NULL, `display_name` TEXT NOT NULL, `description` TEXT NOT NULL, `website` TEXT NOT NULL, `image` TEXT, `posts` INTEGER, `followers` INTEGER, `following` INTEGER, PRIMARY KEY(`pk`))",
+        "fields": [
+          {
+            "fieldPath": "pk",
+            "columnName": "pk",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "display_name",
+            "columnName": "display_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "website",
+            "columnName": "website",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "posts",
+            "columnName": "posts",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "followers",
+            "columnName": "followers",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "following",
+            "columnName": "following",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pk"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "story_post",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER NOT NULL, `slug` TEXT NOT NULL, `caption` TEXT NOT NULL, `image` TEXT NOT NULL, `date_published` INTEGER NOT NULL, `username` TEXT NOT NULL, `tags` TEXT NOT NULL, `likes` INTEGER NOT NULL, `liked` INTEGER NOT NULL, `profile_image` TEXT NOT NULL, PRIMARY KEY(`pk`))",
+        "fields": [
+          {
+            "fieldPath": "pk",
+            "columnName": "pk",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "caption",
+            "columnName": "caption",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date_published",
+            "columnName": "date_published",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "likes",
+            "columnName": "likes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liked",
+            "columnName": "liked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profile_image",
+            "columnName": "profile_image",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pk"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8ba36a127501f6c3c48c2b60fdd01357')"
+    ]
+  }
+}

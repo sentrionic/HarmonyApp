@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main theme colors -->
+    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#333</color>
+
+    <!-- Secondary theme colors -->
+    <color name="tealDark">#0094DE</color>
+    <color name="tealLight">#9FDAF7</color>
+    <color name="link_blue">#4d94ff</color>
+
+    <!-- other -->
+    <color name="red">#e22b2b</color>
+    <color name="red2">#fc8b8d</color>
+    <color name="grey1">#f2f2f2</color>
+    <color name="grey2">#c4c4c4</color>
+    <color name="grey3">#a8a8a8</color>
+    <color name="grey4">#7d7d7d</color>
+    <color name="grey5">#5c5c5c</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
+    <color name="grey">#bfbfbf</color>
+    <color name="pink">#FF4081</color>
+    <color name="darkRed">#cc0000</color>
+    <color name="hint_color">#70625b</color>
+
+    <color name="default_background_color">#EEEEEE</color>
+
+</resources>

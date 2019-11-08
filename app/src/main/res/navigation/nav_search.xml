@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_search"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="xyz.sentrionic.harmony.ui.main.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_viewStoryFragment2"
+            app:destination="@id/viewStoryFragment2"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/viewStoryFragment2"
+        android:name="xyz.sentrionic.harmony.ui.main.story.ViewStoryFragment"
+        android:label="Posts"
+        tools:layout="@layout/fragment_view_story" >
+        <action
+            android:id="@+id/action_viewStoryFragment2_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_story"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

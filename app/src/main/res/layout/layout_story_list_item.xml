@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="2dp"
+    app:cardPreventCornerOverlap="false"
+    >
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/relLayout1"
+                android:background="@color/colorPrimary">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/story_profile_photo"
+                    android:layout_marginTop="20dp"
+                    app:civ_border_color="@color/black"
+                    app:civ_border_width="0.5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@string/username"
+                    android:layout_toEndOf="@+id/story_profile_photo"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/story_username"
+                    android:textColor="@color/black" />
+
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_elipses"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:id="@+id/ivEllipses"/>
+
+            </RelativeLayout>
+
+            <xyz.sentrionic.harmony.util.SquareImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/story_image"
+                android:layout_below="@id/relLayout1"
+                android:scaleType="centerCrop"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/relLayout2"
+                android:layout_below="@+id/story_image"
+                android:background="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/heartLayout"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/story_image_heart_red"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_heart_red"
+                        android:visibility="invisible"/>
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/story_image_heart"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_heart_white"
+                        android:visibility="visible"/>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/story_speech_bubble"
+                    android:layout_toEndOf="@+id/heartLayout"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_speech_bubble"
+                    android:visibility="visible"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout3"
+                android:layout_below="@+id/relLayout2"
+
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:id="@+id/story_image_likes"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linear"
+                    android:layout_below="@id/story_image_likes">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:id="@+id/story_caption_username"
+                        android:layout_below="@+id/story_image_likes"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:id="@+id/story_image_caption"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:textSize="18sp"
+                    android:layout_below="@+id/linear"
+                    android:id="@+id/image_time_posted"
+                    android:layout_marginTop="5dp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

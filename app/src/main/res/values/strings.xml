@@ -1,0 +1,191 @@
+<resources>
+    <string name="app_name">Harmony</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Intent extras -->
+    <string name="auth_token">auth_token</string>
+    <string name="password_reset_info">We\'ve emailed you instructions for setting your password. If an account exists
+        with the email you entered.
+        You should receive them shortly.If you don\'t receive an email, please make sure you\'ve entered the address you
+        registered with,
+        and check your spam folder.
+    </string>
+    <string name="password_reset_email_sent">Password reset email sent</string>
+    <string name="return_to_launcher_fragment">Return</string>
+    <string name="text_error">Error</string>
+    <string name="text_success">Success</string>
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="email_field">Email</string>
+    <string name="field_password">Password</string>
+    <string name="field_login">Login</string>
+    <string name="field_username">Username</string>
+    <string name="field_confirm_password">Confirm password</string>
+    <string name="field_register">Register</string>
+    <string name="network_error_response">Error</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="my_blogs">My Blogs</string>
+    <string name="home">Home</string>
+    <string name="create">Create</string>
+
+    <string name="fragment_create_blog">Create</string>
+    <string name="fragment_update_blog">Update</string>
+    <string name="fragment_view_blog">View</string>
+    <string name="fragment_account">Account</string>
+    <string name="fragment_change_password">Change password</string>
+    <string name="fragment_blog">Blog</string>
+    <string name="save_changes">Save changes</string>
+    <string name="fragment_update_account">Edit Profile</string>
+    <string name="arg_email">arg_email</string>
+    <string name="arg_username">arg_username</string>
+    <string name="enter_a_username">Enter a username</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="current_password">Current password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="new_password">New password</string>
+    <string name="change_password">Change password</string>
+    <string name="your_email">Your email</string>
+    <string name="your_username">Your username</string>
+    <string name="register">Register</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="update_password">Update password</string>
+    <string name="filter_asc">ASC</string>
+    <string name="filter_desc">DESC</string>
+    <string name="filter_author">Author</string>
+    <string name="filter_date">Date</string>
+    <string name="asc_desc">Ascending or descending order</string>
+    <string name="author_or_date">Filter by author or date</string>
+    <string name="filter_options">Filter options</string>
+    <string name="publish">Publish</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="text_yes">yes</string>
+    <string name="are_you_sure_publish">Are you sure you want to publish this?</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete this? This can\'t be un-done.</string>
+    <string name="text_info">Info</string>
+    <string name="delete">Delete</string>
+
+    <string name="upload">Upload</string>
+    <string name="new_post">New Post</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="view_post_fragment">View Post</string>
+
+    <string name="username">Username</string>
+    <string name="posts">Posts</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="edit_your_profile">Edit Your Profile</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="website">Website</string>
+    <string name="options">Options</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="display_name">Display name</string>
+    <string name="private_information">PRIVATE INFORMATION</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="register_a_new_account">REGISTER A NEW ACCOUNT</string>
+    <string name="full_name">Full Name</string>
+    <string name="fields_non_empty">You must fill out all the fields</string>
+    <string name="auth_failed">Failed to Authenticate. Please try again later</string>
+    <string name="auth_success">Welcome back</string>
+    <string name="like">Like</string>
+    <string name="username_already_exists">An account with that username already exists</string>
+    <string name="email_already_exists">An account with that email already exists</string>
+    <string name="email_or_username_already_exists">An account with that username or email already exists</string>
+    <string name="network_error">There was a network error. Please try again later</string>
+    <string name="notice_email">A verification email has been sent to your email address</string>
+    <string name="verify_email">Email is not verified.\nPlease check your email inbox</string>
+    <string name="confirm_signout">Are you sure you want to sign out?</string>
+    <string name="signing_out">Signing Out…</string>
+    <string name="profile_fragment">Profile</string>
+    <string name="gallery">GALLERY</string>
+    <string name="photo">PHOTO</string>
+    <string name="string_next">Next</string>
+    <string name="view_comments">View all %d comments</string>
+
+    <!-- Intent Extras -->
+    <string name="calling_activity">calling_activity</string>
+    <string name="selected_image">selected_image</string>
+
+    <!-- activity names -->
+    <string name="profile_activity">Profile Activity</string>
+    <string name="saving_changes_success">Successfully saved your changes</string>
+
+    <!-- dialog names -->
+    <string name="confirm_password_dialog">ConfirmPasswordDialog</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="cancel">CANCEL</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="enter_your_password">You must enter your password</string>
+    <string name="incorrect_password">You did not use the correct password</string>
+    <string name="string_open_camera">Open Camera</string>
+    <string name="grant_permission_camera">Please grant permissions to use the camera</string>
+    <string name="share">Share</string>
+    <string name="write_a_description">Write a description…</string>
+    <string name="upload_success">Successfully uploaded your photo</string>
+    <string name="return_to_fragment">return_to_fragment</string>
+    <string name="selected_bitmap">selected_bitmap</string>
+    <string name="liked_by">Liked by</string>
+
+    <!-- Bundle arg names -->
+    <string name="activity_number">activity_number</string>
+    <string name="add_a_comment">Add a comment…</string>
+    <string name="comments">Comments</string>
+    <string name="reply">Reply</string>
+    <string name="view_comments_fragment">View Comments</string>
+    <string name="comment_not_empty">The comment must not be empty</string>
+    <string name="comment_success">Successfully posted your comment</string>
+    <string name="search_people">Search People</string>
+    <string name="search_activity">Search Activity</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="intent_user">intent_user</string>
+    <string name="view_profile_fragment">ViewProfile</string>
+    <string name="bundle_photo">bundle_photo</string>
+    <string name="bundle_user_account_settings">bundle_user_account_settings</string>
+    <string name="home_activity">Home Activity</string>
+    <string name="likes_activity">Like Activity</string>
+
+    <plurals name="view_comments">
+        <item quantity="one">View all %d comment</item>
+        <item quantity="other">View all %d comments</item>
+    </plurals>
+
+    <plurals name="likes">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
