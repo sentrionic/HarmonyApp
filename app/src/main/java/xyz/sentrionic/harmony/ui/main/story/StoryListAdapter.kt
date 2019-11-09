@@ -4,12 +4,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import kotlinx.android.synthetic.main.fragment_view_story.view.*
-import kotlinx.android.synthetic.main.layout_story_list_item.view.*
 import kotlinx.android.synthetic.main.layout_story_list_item.view.image_time_posted
 import kotlinx.android.synthetic.main.layout_story_list_item.view.story_caption_username
 import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image
@@ -121,7 +118,7 @@ class StoryListAdapter(private val requestManager: RequestManager,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is StoryViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }
@@ -150,8 +147,8 @@ class StoryListAdapter(private val requestManager: RequestManager,
         }
     }
 
-    fun submitList(blogList: List<StoryPost>?, isQueryExhausted: Boolean) {
-        val newList = blogList?.toMutableList()
+    fun submitList(storyList: List<StoryPost>?, isQueryExhausted: Boolean) {
+        val newList = storyList?.toMutableList()
         if (isQueryExhausted)
             newList?.add(NO_MORE_RESULTS_BLOG_MARKER)
         differ.submitList(newList)

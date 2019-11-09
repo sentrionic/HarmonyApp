@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_story.*
-import kotlinx.android.synthetic.main.fragment_view_story.*
 import kotlinx.android.synthetic.main.layout_story_list_item.view.*
 
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.DataState
-import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.LikeStoryPostEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
@@ -46,7 +44,7 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
         initRecyclerView()
         subscribeObservers()
 
-        if (savedInstanceState == null) onStorySearch()
+        if (savedInstanceState == null) viewModel.loadFirstPage()
     }
 
 
@@ -67,7 +65,7 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
                         list = viewState.storyFields.storyList
                     )
                     submitList(
-                        blogList = viewState.storyFields.storyList,
+                        storyList = viewState.storyFields.storyList,
                         isQueryExhausted = viewState.storyFields.isQueryExhausted
                     )
                 }
@@ -113,7 +111,7 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
             addItemDecoration(topSpacingDecorator)
 
             recyclerAdapter = StoryListAdapter(requestManager,  this@StoryFragment)
-            addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
@@ -131,8 +129,6 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
     }
 
     override fun onItemSelected(position: Int, item: StoryPost) {
-        Log.d(TAG, "onItemSelected: position, StoryPost: $position, ${item}")
-
         viewModel.setStoryPost(item)
         findNavController().navigate(R.id.action_storyFragment_to_viewStoryFragment)
     }

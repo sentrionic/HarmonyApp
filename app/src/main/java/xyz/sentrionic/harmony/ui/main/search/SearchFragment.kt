@@ -108,7 +108,7 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
                         list = viewState.storyFields.storyList
                     )
                     submitList(
-                        blogList = viewState.storyFields.storyList,
+                        storyList = viewState.storyFields.storyList,
                         isQueryExhausted = viewState.storyFields.isQueryExhausted
                     )
                 }
