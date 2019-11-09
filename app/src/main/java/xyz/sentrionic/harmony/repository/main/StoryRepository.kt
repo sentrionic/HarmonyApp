@@ -21,16 +21,14 @@ import xyz.sentrionic.harmony.repository.JobManager
 import xyz.sentrionic.harmony.repository.NetworkBoundResource
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.DataState
+import xyz.sentrionic.harmony.ui.Loading
 import xyz.sentrionic.harmony.ui.Response
 import xyz.sentrionic.harmony.ui.ResponseType
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState.*
-import xyz.sentrionic.harmony.util.AbsentLiveData
-import xyz.sentrionic.harmony.util.ApiSuccessResponse
+import xyz.sentrionic.harmony.util.*
 import xyz.sentrionic.harmony.util.Constants.Companion.PAGINATION_PAGE_SIZE
-import xyz.sentrionic.harmony.util.DateUtils
 import xyz.sentrionic.harmony.util.ErrorHandling.Companion.ERROR_UNKNOWN
-import xyz.sentrionic.harmony.util.GenericApiResponse
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.RESPONSE_HAS_PERMISSION_TO_EDIT
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.RESPONSE_NO_PERMISSION_TO_EDIT
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.SUCCESS_STORY_DELETED
@@ -378,5 +376,77 @@ constructor(
         }.asLiveData()
     }
 
+    fun toggleLike(
+        authToken: AuthToken,
+        storyPost: StoryPost
+    ) : LiveData<DataState<StoryViewState>> {
+        return object : NetworkBoundResource<GenericResponse, StoryPost, StoryViewState>(
+            sessionManager.isConnectedToTheInternet(),
+            true,
+            true,
+            false
+        ) {
+            override suspend fun createCacheRequestAndReturn() {}
+
+            override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<GenericResponse>) {
+                when {
+                    response.body.response == SuccessHandling.LIKED_POST -> {
+                        storyPost.liked = true
+                        storyPost.likes += 1
+                        updateLocalDb(storyPost)
+                    }
+                    response.body.response == SuccessHandling.UNLIKED_POST -> {
+                        storyPost.liked = false
+                        storyPost.likes -= 1
+                        updateLocalDb(storyPost)
+                    }
+                    else -> onCompleteJob(
+                        DataState.error(
+                            Response(
+                                ERROR_UNKNOWN,
+                                ResponseType.Dialog()
+                            )
+                        )
+                    )
+                }
+
+                withContext(Dispatchers.Main){
+                    // finish with success response
+                    onCompleteJob(
+                        DataState.data(
+                            data = null,
+                            response = null
+                        )
+                    )
+                }
+            }
+
+            override fun createCall(): LiveData<GenericApiResponse<GenericResponse>> {
+                return harmonyMainService.toggleLike(
+                    "Token ${authToken.token!!}",
+                    storyPost.slug
+                )
+            }
+
+            override fun loadFromCache(): LiveData<StoryViewState> {
+                return AbsentLiveData.create()
+            }
+
+            override suspend fun updateLocalDb(cacheObject: StoryPost?) {
+                cacheObject?.let { storyPost ->
+                    storyPostDao.updateStoryPostLikes(
+                        storyPost.pk,
+                        storyPost.likes,
+                        storyPost.liked
+                    )
+                }
+            }
+
+            override fun setJob(job: Job) {
+                addJob("toggleLike", job)
+            }
+
+        }.asLiveData()
+    }
 
 }

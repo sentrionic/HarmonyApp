@@ -84,4 +84,9 @@ interface HarmonyMainService {
         @Part image: MultipartBody.Part?
     ): LiveData<GenericApiResponse<StoryCreateUpdateResponse>>
 
+    @POST("story/{slug}/like")
+    fun toggleLike(
+        @Header("Authorization") authorization: String,
+        @Path("slug") slug: String
+    ): LiveData<GenericApiResponse<GenericResponse>>
 }

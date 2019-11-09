@@ -45,4 +45,7 @@ interface StoryPostDao {
         """)
 
     fun updateStoryPost(pk: Int, caption: String, tags: String, image: String)
+
+    @Query("UPDATE story_post SET likes = :likes, liked = :liked WHERE pk = :pk")
+    fun updateStoryPostLikes(pk: Int, likes: Int, liked: Boolean)
 }

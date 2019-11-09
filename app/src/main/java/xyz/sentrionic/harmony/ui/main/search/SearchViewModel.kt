@@ -76,6 +76,10 @@ private val editor: SharedPreferences.Editor
                 }?: AbsentLiveData.create()
             }
 
+            is LikeStoryPostEvent -> {
+                return AbsentLiveData.create()
+            }
+
             is None -> {
                 return object : LiveData<DataState<StoryViewState>>() {
                     override fun onActive() {

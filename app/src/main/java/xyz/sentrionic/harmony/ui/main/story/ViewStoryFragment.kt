@@ -17,6 +17,7 @@ import xyz.sentrionic.harmony.ui.main.story.viewmodel.isAuthorOfStoryPost
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.removeDeletedStoryPost
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.setIsAuthorOfStoryPost
 import xyz.sentrionic.harmony.util.DateUtils
+import xyz.sentrionic.harmony.util.Heart
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.SUCCESS_STORY_DELETED
 
 class ViewStoryFragment : BaseStoryFragment() {
@@ -98,6 +99,21 @@ class ViewStoryFragment : BaseStoryFragment() {
         }
 
         image_time_posted.text = DateUtils.convertLongToStringDate(storyPost.date_published)
+
+        story_image_heart.setOnClickListener {
+            toggleLike(storyPost)
+        }
+
+        story_image_heart_red.setOnClickListener {
+            toggleLike(storyPost)
+        }
+    }
+
+    private fun toggleLike(storyPost: StoryPost) {
+        val heart = Heart(heartWhite = story_image_heart, heartRed = story_image_heart_red)
+        viewModel.setStateEvent(LikeStoryPostEvent())
+        val likes = storyPost.likes + heart.toggleLike()
+        story_image_likes.text = resources.getQuantityString(R.plurals.likes, likes, likes)
     }
 
     private fun deleteStoryPost() {

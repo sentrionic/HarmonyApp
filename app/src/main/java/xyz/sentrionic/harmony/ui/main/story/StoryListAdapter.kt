@@ -4,14 +4,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import kotlinx.android.synthetic.main.fragment_view_story.view.*
 import kotlinx.android.synthetic.main.layout_story_list_item.view.*
+import kotlinx.android.synthetic.main.layout_story_list_item.view.image_time_posted
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_caption_username
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_caption
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_heart
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_heart_red
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_likes
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_profile_photo
+import kotlinx.android.synthetic.main.layout_story_list_item.view.story_username
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.util.DateUtils
 import xyz.sentrionic.harmony.util.GenericViewHolder
+import xyz.sentrionic.harmony.util.Heart
 
 class StoryListAdapter(private val requestManager: RequestManager,
                        private val interaction: Interaction? = null) :
@@ -153,8 +165,16 @@ class StoryListAdapter(private val requestManager: RequestManager,
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: StoryPost) = with(itemView) {
-            itemView.setOnClickListener {
+            itemView.story_image.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
+            }
+
+            itemView.story_image_heart.setOnClickListener {
+                interaction?.onItemLiked(adapterPosition, item, Heart(heartWhite = story_image_heart, heartRed = story_image_heart_red), itemView)
+            }
+
+            itemView.story_image_heart_red.setOnClickListener {
+                interaction?.onItemLiked(adapterPosition, item, Heart(heartWhite = story_image_heart, heartRed = story_image_heart_red), itemView)
             }
 
             requestManager
@@ -186,5 +206,6 @@ class StoryListAdapter(private val requestManager: RequestManager,
 
     interface Interaction {
         fun onItemSelected(position: Int, item: StoryPost)
+        fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View)
     }
 }

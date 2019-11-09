@@ -13,5 +13,7 @@ class SuccessHandling {
         const val SUCCESS_STORY_CREATED = "created"
         const val SUCCESS_STORY_DELETED = "deleted"
 
+        const val LIKED_POST = "Liked Post"
+        const val UNLIKED_POST = "Unliked Post"
     }
 }

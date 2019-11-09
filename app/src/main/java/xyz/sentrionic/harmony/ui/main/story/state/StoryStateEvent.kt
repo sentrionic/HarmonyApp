@@ -8,6 +8,8 @@ sealed class StoryStateEvent {
 
     class DeleteStoryPostEvent : StoryStateEvent()
 
+    class LikeStoryPostEvent : StoryStateEvent()
+
     class None : StoryStateEvent()
 
 }

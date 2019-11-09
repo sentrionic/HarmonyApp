@@ -33,6 +33,7 @@ import xyz.sentrionic.harmony.ui.main.story.StoryListAdapter
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
 import xyz.sentrionic.harmony.util.ErrorHandling
+import xyz.sentrionic.harmony.util.Heart
 import xyz.sentrionic.harmony.util.TopSpacingItemDecoration
 
 
@@ -202,6 +203,10 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
 
         viewModel.setStoryPost(item)
         findNavController().navigate(R.id.action_searchFragment_to_viewStoryFragment2)
+    }
+
+    override fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDestroyView() {

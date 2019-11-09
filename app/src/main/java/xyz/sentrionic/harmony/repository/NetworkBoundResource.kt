@@ -62,7 +62,7 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject, ViewStateType>
         }
     }
 
-    fun doCacheRequest() {
+    private fun doCacheRequest() {
         coroutineScope.launch {
             delay(TESTING_CACHE_DELAY)
             // View data from cache only and return
@@ -70,7 +70,7 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject, ViewStateType>
         }
     }
 
-    fun doNetworkRequest() {
+    private fun doNetworkRequest() {
         coroutineScope.launch {
 
             // simulate a network delay for testing
@@ -100,7 +100,7 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject, ViewStateType>
         }
     }
 
-    suspend fun handleNetworkCall(response: GenericApiResponse<ResponseObject>) {
+    private suspend fun handleNetworkCall(response: GenericApiResponse<ResponseObject>) {
 
         when (response) {
             is ApiSuccessResponse -> {

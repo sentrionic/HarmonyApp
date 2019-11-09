@@ -76,6 +76,15 @@ constructor(
                 }?: AbsentLiveData.create()
             }
 
+            is LikeStoryPostEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    storyRepository.toggleLike(
+                        authToken = authToken,
+                        storyPost = getStoryPost()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
             is None -> {
                 return object : LiveData<DataState<StoryViewState>>() {
                     override fun onActive() {

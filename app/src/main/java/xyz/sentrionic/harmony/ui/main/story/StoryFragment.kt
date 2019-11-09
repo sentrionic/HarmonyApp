@@ -12,13 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_story.*
+import kotlinx.android.synthetic.main.fragment_view_story.*
+import kotlinx.android.synthetic.main.layout_story_list_item.view.*
 
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.DataState
+import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
+import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.LikeStoryPostEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
 import xyz.sentrionic.harmony.util.ErrorHandling
+import xyz.sentrionic.harmony.util.Heart
 import xyz.sentrionic.harmony.util.TopSpacingItemDecoration
 
 class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRefreshLayout.OnRefreshListener {
@@ -130,6 +135,13 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
 
         viewModel.setStoryPost(item)
         findNavController().navigate(R.id.action_storyFragment_to_viewStoryFragment)
+    }
+
+    override fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View) {
+        viewModel.setStoryPost(item)
+        viewModel.setStateEvent(LikeStoryPostEvent())
+        val likes = item.likes + heart.toggleLike()
+        itemView.story_image_likes.text = resources.getQuantityString(R.plurals.likes, likes, likes)
     }
 
     override fun onDestroyView() {

@@ -151,7 +151,7 @@ class UpdateAccountFragment : BaseAccountFragment() {
         }
     }
 
-    private fun showImageSelectionError(){
+    private fun showImageSelectionError() {
         stateChangeListener.onDataStateChange(
             DataState(
                 Event(

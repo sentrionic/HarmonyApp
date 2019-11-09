@@ -201,12 +201,13 @@ constructor(
             override suspend fun createCacheRequestAndReturn() {}
 
             override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<GenericResponse>) {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     // finish with success response
                     onCompleteJob(
                         DataState.data(null,
                             Response(response.body.response, ResponseType.Toast())
-                        ))
+                        )
+                    )
                 }
             }
 
