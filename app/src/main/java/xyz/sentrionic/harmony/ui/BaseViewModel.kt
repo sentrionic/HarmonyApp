@@ -1,6 +1,5 @@
 package xyz.sentrionic.harmony.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -33,10 +32,9 @@ abstract class BaseViewModel<StateEvent, ViewState> : ViewModel() {
     }
 
     fun getCurrentViewStateOrNew(): ViewState {
-        val value = viewState.value?.let {
+        return viewState.value?.let {
             it
         }?: initNewViewState()
-        return value
     }
 
     abstract fun handleStateEvent(stateEvent: StateEvent): LiveData<DataState<ViewState>>

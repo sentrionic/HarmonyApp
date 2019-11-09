@@ -13,7 +13,7 @@
         android:title="@string/search" />
 
     <item android:id="@+id/nav_create_story"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_share"
         android:title="@string/new_post" />
 
     <item android:id="@+id/nav_notifications"

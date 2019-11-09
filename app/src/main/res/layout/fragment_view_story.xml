@@ -76,23 +76,22 @@
                         android:visibility="invisible"/>
 
                     <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:id="@+id/story_image_heart"
                         android:layout_centerInParent="true"
                         android:layout_marginStart="20dp"
-                        android:src="@drawable/ic_heart_outline"
+                        android:src="@drawable/ic_heart_black"
                         android:visibility="visible"/>
 
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:id="@+id/speech_bubble"
                     android:layout_toEndOf="@+id/heartLayout"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_speech_bubble"
+                    android:src="@drawable/ic_speech_bubble_thin"
                     android:visibility="visible"
                     android:layout_centerVertical="true"/>
 
@@ -104,17 +103,16 @@
                 android:id="@+id/relLayout3"
                 android:layout_below="@+id/relLayout2"
 
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
                 android:background="@color/white">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:id="@+id/story_image_likes"/>
 
@@ -128,20 +126,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:id="@+id/story_caption_username"
                         android:layout_below="@+id/story_image_likes"
-                        android:textStyle="bold"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="3dp"
+                        android:textStyle="bold"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:id="@+id/story_image_caption"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="3dp"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -149,10 +147,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/grey"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:layout_below="@+id/linear"
                     android:id="@+id/image_time_posted"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="3dp"/>
 
             </RelativeLayout>
 
