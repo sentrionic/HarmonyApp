@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -29,19 +30,17 @@ import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_FILTER
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_FILTER_USERNAME
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_ORDER_ASC
 import xyz.sentrionic.harmony.ui.DataState
-import xyz.sentrionic.harmony.ui.main.story.StoryListAdapter
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
 import xyz.sentrionic.harmony.util.ErrorHandling
-import xyz.sentrionic.harmony.util.Heart
-import xyz.sentrionic.harmony.util.TopSpacingItemDecoration
+import xyz.sentrionic.harmony.util.GridListAdapter
+import xyz.sentrionic.harmony.util.GridSpacingItemDecoration
 
-
-class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
+class SearchFragment : BaseSearchFragment(), GridListAdapter.Interaction,
     SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var searchView: SearchView
-    private lateinit var recyclerAdapter: StoryListAdapter
+    private lateinit var recyclerAdapter: GridListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,8 +107,7 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
                         list = viewState.storyFields.storyList
                     )
                     submitList(
-                        storyList = viewState.storyFields.storyList,
-                        isQueryExhausted = viewState.storyFields.isQueryExhausted
+                        storyList = viewState.storyFields.storyList
                     )
                 }
             }
@@ -118,13 +116,14 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
 
     private fun initRecyclerView() {
 
-        story_post_recyclerview.apply {
-            layoutManager = LinearLayoutManager(this@SearchFragment.context)
-            val topSpacingDecorator = TopSpacingItemDecoration(10)
-            removeItemDecoration(topSpacingDecorator) // does nothing if not applied already
-            addItemDecoration(topSpacingDecorator)
+        search_post_recyclerview.apply {
+            layoutManager = GridLayoutManager(this@SearchFragment.context, 3)
+            val gridSpacingItemDecoration = GridSpacingItemDecoration(10)
+            removeItemDecoration(gridSpacingItemDecoration) // does nothing if not applied already
+            addItemDecoration(gridSpacingItemDecoration)
 
-            recyclerAdapter = StoryListAdapter(requestManager, this@SearchFragment)
+            recyclerAdapter =
+                GridListAdapter(requestManager, this@SearchFragment)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -139,7 +138,6 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
             })
             adapter = recyclerAdapter
         }
-
     }
 
     private fun initSearchView(menu: Menu) {
@@ -172,7 +170,6 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
         val searchButton = searchView.findViewById(R.id.search_go_btn) as View
         searchButton.setOnClickListener {
             val searchQuery = searchPlate.text.toString()
-            Log.e(TAG, "SearchView: (button) executing search...: ${searchQuery}")
             viewModel.setQuery(searchQuery).let {
                 onStorySearchOrFilter()
             }
@@ -187,7 +184,7 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
     }
 
     private fun resetUI() {
-        story_post_recyclerview.smoothScrollToPosition(0)
+        search_post_recyclerview.smoothScrollToPosition(0)
         stateChangeListener.hideSoftKeyboard()
         focusable_view.requestFocus()
     }
@@ -199,20 +196,14 @@ class SearchFragment : BaseSearchFragment(), StoryListAdapter.Interaction,
     }
 
     override fun onItemSelected(position: Int, item: StoryPost) {
-        Log.d(TAG, "onItemSelected: position, StoryPost: $position, ${item}")
-
         viewModel.setStoryPost(item)
         findNavController().navigate(R.id.action_searchFragment_to_viewStoryFragment2)
-    }
-
-    override fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         // clear references (can leak memory)
-        story_post_recyclerview.adapter = null
+        search_post_recyclerview.adapter = null
     }
 
     override fun onRefresh() {

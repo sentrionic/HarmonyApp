@@ -53,7 +53,7 @@ abstract class BaseStoryFragment : DaggerFragment() {
     /*
           @fragmentId is id of fragment from graph to be EXCLUDED from action back bar nav
         */
-    private fun setupActionBarWithNavController(fragmentId: Int, activity: AppCompatActivity) {
+    fun setupActionBarWithNavController(fragmentId: Int, activity: AppCompatActivity) {
         val appBarConfiguration = AppBarConfiguration(setOf(fragmentId))
         NavigationUI.setupActionBarWithNavController(
             activity,

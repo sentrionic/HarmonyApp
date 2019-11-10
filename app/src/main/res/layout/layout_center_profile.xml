@@ -99,17 +99,11 @@
                 android:layout_below="@+id/linLayout2"
                 android:layout_marginBottom="50dp">
 
-                <GridView
-                    android:id="@+id/gridView"
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:horizontalSpacing="1dp"
-                    android:numColumns="3"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="1dp">
-
-                </GridView>
+                    android:layout_height="match_parent"
+                    android:id="@+id/user_stories_recyclerview"
+                    />
 
             </RelativeLayout>
 

@@ -83,7 +83,6 @@ class AccountFragment : BaseAccountFragment() {
     }
 
     private fun setAccountDataFields(accountProperties: AccountProperties) {
-        Log.d(TAG, "SETACCOUNTDATAFIELDS: " + accountProperties.display_name)
         display_name?.text = accountProperties.display_name
         description?.text = accountProperties.description
         website?.text = accountProperties.website
