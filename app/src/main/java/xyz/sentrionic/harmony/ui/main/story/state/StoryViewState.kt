@@ -43,7 +43,8 @@ data class StoryViewState (
 
     data class ViewProfileField(
         var profile: Profile? = null,
-        var isFollowing: Boolean = false
+        var isFollowing: Boolean = false,
+        var username: String? = null
     )
 
 }

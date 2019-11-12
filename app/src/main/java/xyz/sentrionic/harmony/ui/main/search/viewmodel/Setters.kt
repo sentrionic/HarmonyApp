@@ -22,6 +22,12 @@ fun StoryViewModel.setProfile(profile: Profile) {
     setViewState(update)
 }
 
+fun StoryViewModel.setUsername(username: String) {
+    val update = getCurrentViewStateOrNew()
+    update.viewProfileFields.username = username
+    setViewState(update)
+}
+
 fun StoryViewModel.setUserQueryExhausted(isExhausted: Boolean) {
     val update = getCurrentViewStateOrNew()
     update.userFields.isQueryExhausted = isExhausted

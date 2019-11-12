@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_story.*
 import kotlinx.android.synthetic.main.layout_story_list_item.view.*
-
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.DataState
+import xyz.sentrionic.harmony.ui.main.search.viewmodel.setUsername
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.LikeStoryPostEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
@@ -138,6 +138,11 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
         viewModel.setStateEvent(LikeStoryPostEvent())
         val likes = item.likes + heart.toggleLike()
         itemView.story_image_likes.text = resources.getQuantityString(R.plurals.likes, likes, likes)
+    }
+
+    override fun onProfileSelected(position: Int, item: StoryPost) {
+        viewModel.setUsername(item.username)
+        findNavController().navigate(R.id.action_storyFragment_to_profileFragment2)
     }
 
     override fun onDestroyView() {

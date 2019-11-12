@@ -10,6 +10,7 @@ import xyz.sentrionic.harmony.api.main.responses.ProfileListSearchResponse
 import xyz.sentrionic.harmony.api.main.responses.StoryCreateUpdateResponse
 import xyz.sentrionic.harmony.api.main.responses.StoryListSearchResponse
 import xyz.sentrionic.harmony.models.AccountProperties
+import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.util.GenericApiResponse
 
 interface HarmonyMainService {
@@ -18,6 +19,12 @@ interface HarmonyMainService {
     fun getAccountProperties(
         @Header("Authorization") authorization: String
     ): LiveData<GenericApiResponse<AccountProperties>>
+
+    @GET("account/{username}")
+    fun getProfile(
+        @Header("Authorization") authorization: String,
+        @Path("username") username: String
+    ): LiveData<GenericApiResponse<Profile>>
 
     @PUT("account/properties/update")
     @Multipart
@@ -97,5 +104,11 @@ interface HarmonyMainService {
     fun toggleLike(
         @Header("Authorization") authorization: String,
         @Path("slug") slug: String
+    ): LiveData<GenericApiResponse<GenericResponse>>
+
+    @POST("account/{username}/follow")
+    fun toggleFollow(
+        @Header("Authorization") authorization: String,
+        @Path("username") username: String
     ): LiveData<GenericApiResponse<GenericResponse>>
 }

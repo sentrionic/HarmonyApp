@@ -7,15 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import kotlinx.android.synthetic.main.layout_story_list_item.view.image_time_posted
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_caption_username
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_caption
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_heart
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_heart_red
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_image_likes
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_profile_photo
-import kotlinx.android.synthetic.main.layout_story_list_item.view.story_username
+import kotlinx.android.synthetic.main.layout_story_list_item.view.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.util.DateUtils
@@ -162,16 +154,28 @@ class StoryListAdapter(private val requestManager: RequestManager,
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: StoryPost) = with(itemView) {
+
+            // ViewStoryFragment Interaction
             itemView.story_image.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
+            // Like/Unlike Interaction
             itemView.story_image_heart.setOnClickListener {
                 interaction?.onItemLiked(adapterPosition, item, Heart(heartWhite = story_image_heart, heartRed = story_image_heart_red), itemView)
             }
 
             itemView.story_image_heart_red.setOnClickListener {
                 interaction?.onItemLiked(adapterPosition, item, Heart(heartWhite = story_image_heart, heartRed = story_image_heart_red), itemView)
+            }
+
+            // Profile Interaction
+            itemView.story_profile_photo.setOnClickListener {
+                interaction?.onProfileSelected(adapterPosition, item)
+            }
+
+            itemView.story_username.setOnClickListener {
+                interaction?.onProfileSelected(adapterPosition, item)
             }
 
             requestManager
@@ -204,5 +208,6 @@ class StoryListAdapter(private val requestManager: RequestManager,
     interface Interaction {
         fun onItemSelected(position: Int, item: StoryPost)
         fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View)
+        fun onProfileSelected(position: Int, item: StoryPost)
     }
 }

@@ -54,5 +54,27 @@
             app:exitAnim="@anim/fade_out"
             app:popUpTo="@+id/nav_story"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_profileSearchFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="xyz.sentrionic.harmony.ui.main.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_profileSearchFragment"
+            app:destination="@id/profileSearchFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_story"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

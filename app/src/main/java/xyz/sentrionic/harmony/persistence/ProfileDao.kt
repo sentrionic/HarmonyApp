@@ -16,4 +16,10 @@ interface ProfileDao {
 
     @Query("SELECT * FROM profiles WHERE username LIKE '%' || :query || '%' OR display_name LIKE '%' || :query || '%' LIMIT (:page * :pageSize)")
     fun getProfiles(query: String, page: Int, pageSize: Int = Constants.PAGINATION_PAGE_SIZE): LiveData<List<Profile>>
+
+    @Query("UPDATE profiles SET followers = :followers, follow = :isFollowing WHERE pk = :pk")
+    fun updateProfile(pk: Int, followers: Int, isFollowing: Boolean)
+
+    @Query("SELECT * FROM profiles WHERE username = :username")
+    fun getProfile(username: String): LiveData<Profile>
 }

@@ -13,12 +13,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.layout_center_profile.*
-import kotlinx.android.synthetic.main.layout_center_profile.description
-import kotlinx.android.synthetic.main.layout_center_profile.display_name
 import kotlinx.android.synthetic.main.snippet_top_profile.*
-
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.AccountProperties
 import xyz.sentrionic.harmony.session.SessionManager
@@ -97,7 +93,6 @@ class AccountFragment : BaseAccountFragment() {
         }
 
         (activity as AppCompatActivity).supportActionBar?.title = accountProperties.username
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(true)
     }
 
     private fun showDialog() {

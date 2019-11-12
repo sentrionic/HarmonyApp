@@ -32,19 +32,19 @@ data class Profile(
 
     @SerializedName("image")
     @Expose
-    @ColumnInfo(name = "image") var image: String?,
+    @ColumnInfo(name = "image") var image: String,
 
     @SerializedName("posts")
     @Expose
-    @ColumnInfo(name = "posts") var posts: Int?,
+    @ColumnInfo(name = "posts") var posts: Int,
 
     @SerializedName("followers")
     @Expose
-    @ColumnInfo(name = "followers") var followers: Int?,
+    @ColumnInfo(name = "followers") var followers: Int,
 
     @SerializedName("following")
     @Expose
-    @ColumnInfo(name = "following") var following: Int?,
+    @ColumnInfo(name = "following") var following: Int,
 
     @SerializedName("follow")
     @Expose

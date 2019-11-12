@@ -148,6 +148,7 @@ class SearchFragment : BaseSearchFragment(), GridListAdapter.Interaction,
             searchView.maxWidth = Integer.MAX_VALUE
             searchView.setIconifiedByDefault(true)
             searchView.isSubmitButtonEnabled = true
+            searchView.queryHint = "Tags"
         }
 
         // ENTER ON COMPUTER KEYBOARD OR ARROW ON VIRTUAL KEYBOARD

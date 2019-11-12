@@ -15,5 +15,8 @@ class SuccessHandling {
 
         const val LIKED_POST = "Liked Post"
         const val UNLIKED_POST = "Unliked Post"
+
+        const val FOLLOWED = "Followed"
+        const val UNFOLLOWED = "Unfollowed"
     }
 }

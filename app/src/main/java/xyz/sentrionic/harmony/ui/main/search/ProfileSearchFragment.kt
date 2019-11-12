@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_profile_search.*
@@ -131,6 +132,7 @@ class ProfileSearchFragment : BaseSearchFragment(), ProfileListAdapter.Interacti
             searchView.maxWidth = Integer.MAX_VALUE
             searchView.setIconifiedByDefault(true)
             searchView.isSubmitButtonEnabled = true
+            searchView.queryHint = "Name"
         }
 
         // ENTER ON COMPUTER KEYBOARD OR ARROW ON VIRTUAL KEYBOARD
@@ -203,7 +205,8 @@ class ProfileSearchFragment : BaseSearchFragment(), ProfileListAdapter.Interacti
     
     override fun onProfileSelected(position: Int, item: Profile) {
         viewModel.setProfile(item)
-        //findNavController().navigate(R.id.action_searchFragment_to_viewStoryFragment2)
+        viewModel.setUsername(item.username)
+        findNavController().navigate(R.id.action_profileSearchFragment_to_profileFragment)
     }
 
     override fun onDestroyView() {

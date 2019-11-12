@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "60c53d31fe853f466cf0d708781f73a3",
+    "identityHash": "911180d8ffcf7fb45a3179ceb12ae746",
     "entities": [
       {
         "tableName": "auth_token",
@@ -192,7 +192,7 @@
       },
       {
         "tableName": "profiles",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER NOT NULL, `username` TEXT NOT NULL, `display_name` TEXT NOT NULL, `description` TEXT NOT NULL, `website` TEXT NOT NULL, `image` TEXT, `posts` INTEGER, `followers` INTEGER, `following` INTEGER, `follow` INTEGER NOT NULL, PRIMARY KEY(`pk`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER NOT NULL, `username` TEXT NOT NULL, `display_name` TEXT NOT NULL, `description` TEXT NOT NULL, `website` TEXT NOT NULL, `image` TEXT NOT NULL, `posts` INTEGER NOT NULL, `followers` INTEGER NOT NULL, `following` INTEGER NOT NULL, `follow` INTEGER NOT NULL, PRIMARY KEY(`pk`))",
         "fields": [
           {
             "fieldPath": "pk",
@@ -228,25 +228,25 @@
             "fieldPath": "image",
             "columnName": "image",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "posts",
             "columnName": "posts",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "followers",
             "columnName": "followers",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "following",
             "columnName": "following",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "isFollowing",
@@ -268,7 +268,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '60c53d31fe853f466cf0d708781f73a3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '911180d8ffcf7fb45a3179ceb12ae746')"
     ]
   }
 }

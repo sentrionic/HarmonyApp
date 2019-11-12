@@ -6,11 +6,15 @@ sealed class StoryStateEvent {
 
     class ProfileSearchEvent : StoryStateEvent()
 
+    class GetProfilePropertiesEvent : StoryStateEvent()
+
     class CheckAuthorOfStoryPost : StoryStateEvent()
 
     class DeleteStoryPostEvent : StoryStateEvent()
 
     class LikeStoryPostEvent : StoryStateEvent()
+
+    class FollowProfileEvent : StoryStateEvent()
 
     class None : StoryStateEvent()
 

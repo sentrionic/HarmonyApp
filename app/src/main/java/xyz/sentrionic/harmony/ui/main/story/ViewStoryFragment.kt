@@ -1,7 +1,6 @@
 package xyz.sentrionic.harmony.ui.main.story
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,7 +10,7 @@ import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.AreYouSureCallback
 import xyz.sentrionic.harmony.ui.UIMessage
 import xyz.sentrionic.harmony.ui.UIMessageType
-import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
+import xyz.sentrionic.harmony.ui.main.search.viewmodel.setUsername
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.*
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.isAuthorOfStoryPost
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.removeDeletedStoryPost
@@ -100,12 +99,22 @@ class ViewStoryFragment : BaseStoryFragment() {
 
         image_time_posted.text = DateUtils.convertLongToStringDate(storyPost.date_published)
 
+        // Like Interaction
         story_image_heart.setOnClickListener {
             toggleLike(storyPost)
         }
 
         story_image_heart_red.setOnClickListener {
             toggleLike(storyPost)
+        }
+
+        // Profile Interaction
+        story_username.setOnClickListener {
+            goToProfile(storyPost.username)
+        }
+
+        story_profile_photo.setOnClickListener {
+            goToProfile(storyPost.username)
         }
     }
 
@@ -114,6 +123,11 @@ class ViewStoryFragment : BaseStoryFragment() {
         viewModel.setStateEvent(LikeStoryPostEvent())
         val likes = storyPost.likes + heart.toggleLike()
         story_image_likes.text = resources.getQuantityString(R.plurals.likes, likes, likes)
+    }
+
+    private fun goToProfile(username: String) {
+        viewModel.setUsername(username)
+        findNavController().navigate(R.id.action_viewStoryFragment_to_profileFragment2)
     }
 
     private fun deleteStoryPost() {

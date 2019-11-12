@@ -1,5 +1,6 @@
 package xyz.sentrionic.harmony.ui.main.story.viewmodel
 
+import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
@@ -62,7 +63,27 @@ fun StoryViewModel.getStoryPost(): StoryPost {
     }
 }
 
+fun StoryViewModel.getProfile(): Profile {
+    getCurrentViewStateOrNew().let {
+        return it.viewProfileFields.profile?.let {
+            return it
+        }?: getDummyProfile()
+    }
+}
+
+fun StoryViewModel.getUsername() : String {
+    getCurrentViewStateOrNew().let {
+        return it.viewProfileFields.username?.let {
+            return it
+        }?: ""
+    }
+}
+
 fun StoryViewModel.getDummyStoryPost(): StoryPost {
     return StoryPost(-1, "" , "", "", 1, "", "", 0, false, "")
+}
+
+fun StoryViewModel.getDummyProfile() : Profile {
+    return Profile(-1, "", "", "", "", "", 0, 0, 0, false)
 }
 

@@ -3,7 +3,6 @@ package xyz.sentrionic.harmony.ui.main.search
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils
-import xyz.sentrionic.harmony.repository.main.SearchRepository
 import xyz.sentrionic.harmony.repository.main.StoryRepository
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.BaseViewModel
@@ -22,8 +21,7 @@ class SearchViewModel
 constructor(
 private val sessionManager: SessionManager,
 private val storyRepository: StoryRepository,
-private val searchRepository: SearchRepository,
-private val sharedPreferences: SharedPreferences,
+sharedPreferences: SharedPreferences,
 private val editor: SharedPreferences.Editor
 ): BaseViewModel<StoryStateEvent, StoryViewState>() {
 
@@ -82,6 +80,14 @@ private val editor: SharedPreferences.Editor
             }
 
             is LikeStoryPostEvent -> {
+                return AbsentLiveData.create()
+            }
+
+            is FollowProfileEvent -> {
+                return AbsentLiveData.create()
+            }
+
+            is GetProfilePropertiesEvent -> {
                 return AbsentLiveData.create()
             }
 

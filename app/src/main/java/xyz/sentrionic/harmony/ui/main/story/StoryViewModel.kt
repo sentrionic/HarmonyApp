@@ -100,6 +100,24 @@ constructor(
                 }?: AbsentLiveData.create()
             }
 
+            is FollowProfileEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    searchRepository.toggleFollow(
+                        authToken = authToken,
+                        profile = getProfile()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
+            is GetProfilePropertiesEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    searchRepository.getProfile(
+                        authToken = authToken,
+                        username = getUsername()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
             is None -> {
                 return object : LiveData<DataState<StoryViewState>>() {
                     override fun onActive() {
