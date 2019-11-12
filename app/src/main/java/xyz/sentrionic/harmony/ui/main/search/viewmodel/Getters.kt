@@ -2,6 +2,7 @@ package xyz.sentrionic.harmony.ui.main.search.viewmodel
 
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.main.search.SearchViewModel
+import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
 fun SearchViewModel.getSearchQuery(): String {
     getCurrentViewStateOrNew().let{
@@ -15,15 +16,27 @@ fun SearchViewModel.getPage(): Int{
     }
 }
 
-fun SearchViewModel.getIsQueryExhausted(): Boolean {
+fun StoryViewModel.getIsUserQueryExhausted(): Boolean {
     getCurrentViewStateOrNew().let {
         return it.storyFields.isQueryExhausted
     }
 }
 
-fun SearchViewModel.getIsQueryInProgress(): Boolean {
+fun StoryViewModel.getIsUserQueryInProgress(): Boolean {
     getCurrentViewStateOrNew().let {
         return it.storyFields.isQueryInProgress
+    }
+}
+
+fun StoryViewModel.getUserSearchQuery(): String {
+    getCurrentViewStateOrNew().let{
+        return it.userFields.searchQuery
+    }
+}
+
+fun StoryViewModel.getUserPage(): Int{
+    getCurrentViewStateOrNew().let{
+        return it.userFields.page
     }
 }
 

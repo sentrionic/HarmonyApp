@@ -6,9 +6,11 @@ import retrofit2.Retrofit
 import xyz.sentrionic.harmony.api.main.HarmonyMainService
 import xyz.sentrionic.harmony.persistence.AccountPropertiesDao
 import xyz.sentrionic.harmony.persistence.AppDatabase
+import xyz.sentrionic.harmony.persistence.ProfileDao
 import xyz.sentrionic.harmony.persistence.StoryPostDao
 import xyz.sentrionic.harmony.repository.main.AccountRepository
 import xyz.sentrionic.harmony.repository.main.CreateStoryRepository
+import xyz.sentrionic.harmony.repository.main.SearchRepository
 import xyz.sentrionic.harmony.repository.main.StoryRepository
 import xyz.sentrionic.harmony.session.SessionManager
 
@@ -61,6 +63,26 @@ class MainModule {
         sessionManager: SessionManager
     ): CreateStoryRepository {
         return CreateStoryRepository(harmonyMainService, storyPostDao, sessionManager)
+    }
+
+    @MainScope
+    @Provides
+    fun provideSearchRepository(
+        harmonyMainService: HarmonyMainService,
+        profileDao: ProfileDao,
+        sessionManager: SessionManager
+    ): SearchRepository {
+        return SearchRepository(
+            harmonyMainService,
+            profileDao,
+            sessionManager
+        )
+    }
+
+    @MainScope
+    @Provides
+    fun provideProfileDao(db: AppDatabase): ProfileDao {
+        return db.getProfileDao()
     }
 
 }

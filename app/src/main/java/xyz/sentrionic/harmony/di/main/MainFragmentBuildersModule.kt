@@ -6,6 +6,7 @@ import xyz.sentrionic.harmony.ui.main.account.AccountFragment
 import xyz.sentrionic.harmony.ui.main.account.ChangePasswordFragment
 import xyz.sentrionic.harmony.ui.main.account.UpdateAccountFragment
 import xyz.sentrionic.harmony.ui.main.create_story.CreateStoryFragment
+import xyz.sentrionic.harmony.ui.main.search.ProfileSearchFragment
 import xyz.sentrionic.harmony.ui.main.search.SearchFragment
 import xyz.sentrionic.harmony.ui.main.story.StoryFragment
 import xyz.sentrionic.harmony.ui.main.story.ViewStoryFragment
@@ -34,4 +35,6 @@ abstract class MainFragmentBuildersModule {
     @ContributesAndroidInjector()
     abstract fun contributeSearchFragment(): SearchFragment
 
+    @ContributesAndroidInjector()
+    abstract fun contributeProfileSearchFragment(): ProfileSearchFragment
 }

@@ -4,6 +4,8 @@ sealed class StoryStateEvent {
 
     class StorySearchEvent : StoryStateEvent()
 
+    class ProfileSearchEvent : StoryStateEvent()
+
     class CheckAuthorOfStoryPost : StoryStateEvent()
 
     class DeleteStoryPostEvent : StoryStateEvent()

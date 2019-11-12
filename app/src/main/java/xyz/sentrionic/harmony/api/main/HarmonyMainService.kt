@@ -6,6 +6,7 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 import xyz.sentrionic.harmony.api.GenericResponse
 import xyz.sentrionic.harmony.api.main.responses.AccountUpdateResponse
+import xyz.sentrionic.harmony.api.main.responses.ProfileListSearchResponse
 import xyz.sentrionic.harmony.api.main.responses.StoryCreateUpdateResponse
 import xyz.sentrionic.harmony.api.main.responses.StoryListSearchResponse
 import xyz.sentrionic.harmony.models.AccountProperties
@@ -46,6 +47,14 @@ interface HarmonyMainService {
         @Query("ordering") ordering: String,
         @Query("page") page: Int
     ): LiveData<GenericApiResponse<StoryListSearchResponse>>
+
+    @GET("account/profile_list/")
+    fun searchProfiles(
+        @Header("Authorization") authorization: String,
+        @Query("search") query: String,
+        @Query("ordering") ordering: String,
+        @Query("page") page: Int
+    ): LiveData<GenericApiResponse<ProfileListSearchResponse>>
 
     @GET("story/followed")
     fun searchFollowedListStoryPosts(

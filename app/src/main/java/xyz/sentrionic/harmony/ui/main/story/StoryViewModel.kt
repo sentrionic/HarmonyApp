@@ -3,11 +3,14 @@ package xyz.sentrionic.harmony.ui.main.story
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils
+import xyz.sentrionic.harmony.repository.main.SearchRepository
 import xyz.sentrionic.harmony.repository.main.StoryRepository
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.BaseViewModel
 import xyz.sentrionic.harmony.ui.DataState
 import xyz.sentrionic.harmony.ui.Loading
+import xyz.sentrionic.harmony.ui.main.search.viewmodel.getUserPage
+import xyz.sentrionic.harmony.ui.main.search.viewmodel.getUserSearchQuery
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.*
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
@@ -23,6 +26,7 @@ constructor(
     private val sessionManager: SessionManager,
     private val storyRepository: StoryRepository,
     private val sharedPreferences: SharedPreferences,
+    private val searchRepository: SearchRepository,
     private val editor: SharedPreferences.Editor
 ): BaseViewModel<StoryStateEvent, StoryViewState>() {
 
@@ -81,6 +85,17 @@ constructor(
                     storyRepository.toggleLike(
                         authToken = authToken,
                         storyPost = getStoryPost()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
+            is ProfileSearchEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    searchRepository.searchUserProfiles(
+                        authToken = authToken,
+                        query = getUserSearchQuery(),
+                        filterAndOrder = "",
+                        page = getUserPage()
                     )
                 }?: AbsentLiveData.create()
             }

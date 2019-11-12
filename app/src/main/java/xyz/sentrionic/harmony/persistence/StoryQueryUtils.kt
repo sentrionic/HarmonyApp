@@ -33,7 +33,7 @@ fun StoryPostDao.returnOrderedStoryQuery(
     page: Int
 ): LiveData<List<StoryPost>> {
 
-    when{
+    when {
 
         filterAndOrder.contains(ORDER_BY_DESC_DATE_UPDATED) ->{
             return searchStoryPostsOrderByDateDESC(

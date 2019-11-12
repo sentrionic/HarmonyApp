@@ -3,6 +3,7 @@ package xyz.sentrionic.harmony.ui.main.search
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils
+import xyz.sentrionic.harmony.repository.main.SearchRepository
 import xyz.sentrionic.harmony.repository.main.StoryRepository
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.BaseViewModel
@@ -12,7 +13,6 @@ import xyz.sentrionic.harmony.ui.main.search.viewmodel.*
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.*
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
-import xyz.sentrionic.harmony.ui.main.story.viewmodel.getSlug
 import xyz.sentrionic.harmony.util.AbsentLiveData
 import xyz.sentrionic.harmony.util.PreferenceKeys
 import javax.inject.Inject
@@ -22,6 +22,7 @@ class SearchViewModel
 constructor(
 private val sessionManager: SessionManager,
 private val storyRepository: StoryRepository,
+private val searchRepository: SearchRepository,
 private val sharedPreferences: SharedPreferences,
 private val editor: SharedPreferences.Editor
 ): BaseViewModel<StoryStateEvent, StoryViewState>() {
@@ -56,6 +57,10 @@ private val editor: SharedPreferences.Editor
                         page = getPage()
                     )
                 }?: AbsentLiveData.create()
+            }
+
+            is ProfileSearchEvent -> {
+                return AbsentLiveData.create()
             }
 
             is CheckAuthorOfStoryPost -> {

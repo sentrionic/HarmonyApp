@@ -1,43 +1,39 @@
 package xyz.sentrionic.harmony.ui.main.search.viewmodel
 
-import xyz.sentrionic.harmony.models.StoryPost
+import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.ui.main.search.SearchViewModel
+import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
-fun SearchViewModel.setQuery(query: String ) {
+fun StoryViewModel.setUserQuery(query: String ) {
     val update = getCurrentViewStateOrNew()
-    update.storyFields.searchQuery = query
+    update.userFields.searchQuery = query
     setViewState(update)
 }
 
-fun SearchViewModel.setStoryListData(storyList: List<StoryPost>) {
+fun StoryViewModel.setProfileListData(profiles: List<Profile>) {
     val update = getCurrentViewStateOrNew()
-    update.storyFields.storyList = storyList
+    update.userFields.userList = profiles
     setViewState(update)
 }
 
-fun SearchViewModel.setStoryPost(storyPost: StoryPost) {
+fun StoryViewModel.setProfile(profile: Profile) {
     val update = getCurrentViewStateOrNew()
-    update.viewStoryFields.storyPost = storyPost
+    update.viewProfileFields.profile = profile
     setViewState(update)
 }
 
-fun SearchViewModel.setQueryExhausted(isExhausted: Boolean) {
+fun StoryViewModel.setUserQueryExhausted(isExhausted: Boolean) {
     val update = getCurrentViewStateOrNew()
-    update.storyFields.isQueryExhausted = isExhausted
+    update.userFields.isQueryExhausted = isExhausted
     setViewState(update)
 }
 
-fun SearchViewModel.setQueryInProgress(isInProgress: Boolean) {
+fun StoryViewModel.setUserQueryInProgress(isInProgress: Boolean) {
     val update = getCurrentViewStateOrNew()
-    update.storyFields.isQueryInProgress = isInProgress
+    update.userFields.isQueryInProgress = isInProgress
     setViewState(update)
 }
 
-fun SearchViewModel.setIsAuthorOfStoryPost(isAuthorOfStoryPost: Boolean) {
-    val update = getCurrentViewStateOrNew()
-    update.viewStoryFields.isAuthorOfStoryPost = isAuthorOfStoryPost
-    setViewState(update)
-}
 
 // Filter can be "date_updated" or "username"
 fun SearchViewModel.setStoryFilter(filter: String?) {

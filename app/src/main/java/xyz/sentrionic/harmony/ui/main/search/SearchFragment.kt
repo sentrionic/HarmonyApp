@@ -214,8 +214,8 @@ class SearchFragment : BaseSearchFragment(), GridListAdapter.Interaction,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.action_filter_settings -> {
-                showFilterDialog()
+            R.id.action_search_profile -> {
+                findNavController().navigate(R.id.action_searchFragment_to_profileSearchFragment)
                 return true
             }
         }
