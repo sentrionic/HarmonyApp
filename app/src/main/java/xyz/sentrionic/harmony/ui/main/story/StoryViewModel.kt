@@ -9,8 +9,6 @@ import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.BaseViewModel
 import xyz.sentrionic.harmony.ui.DataState
 import xyz.sentrionic.harmony.ui.Loading
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.getUserPage
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.getUserSearchQuery
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.*
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState

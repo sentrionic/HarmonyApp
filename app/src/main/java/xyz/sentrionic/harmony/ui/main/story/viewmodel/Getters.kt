@@ -87,3 +87,27 @@ fun StoryViewModel.getDummyProfile() : Profile {
     return Profile(-1, "", "", "", "", "", 0, 0, 0, false)
 }
 
+fun StoryViewModel.getIsUserQueryExhausted(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.storyFields.isQueryExhausted
+    }
+}
+
+fun StoryViewModel.getIsUserQueryInProgress(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.storyFields.isQueryInProgress
+    }
+}
+
+fun StoryViewModel.getUserSearchQuery(): String {
+    getCurrentViewStateOrNew().let{
+        return it.userFields.searchQuery
+    }
+}
+
+fun StoryViewModel.getUserPage(): Int{
+    getCurrentViewStateOrNew().let{
+        return it.userFields.page
+    }
+}
+

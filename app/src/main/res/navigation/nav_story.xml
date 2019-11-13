@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment2"
-        android:name="xyz.sentrionic.harmony.ui.main.profile.ProfileFragment"
+        android:name="xyz.sentrionic.harmony.ui.main.search.ProfileFragment"
         android:label=""
         tools:layout="@layout/fragment_profile" >
         <action

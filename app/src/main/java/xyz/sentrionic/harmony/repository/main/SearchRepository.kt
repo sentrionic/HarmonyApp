@@ -233,8 +233,8 @@ constructor(
             NetworkBoundResource<Profile, Profile, StoryViewState>(
                 sessionManager.isConnectedToTheInternet(),
                 true,
-                false,
-                true
+                true,
+                false
             ) {
 
             // if network is down, view the cache and return

@@ -1,4 +1,4 @@
-package xyz.sentrionic.harmony.ui.main.profile
+package xyz.sentrionic.harmony.ui.main.search
 
 
 import android.os.Bundle
@@ -14,10 +14,9 @@ import kotlinx.android.synthetic.main.layout_center_profile.*
 import kotlinx.android.synthetic.main.snippet_top_profile.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.Profile
-import xyz.sentrionic.harmony.ui.main.search.BaseSearchFragment
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.setProfile
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.FollowProfileEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.GetProfilePropertiesEvent
+import xyz.sentrionic.harmony.ui.main.story.viewmodel.setProfile
 
 
 class ProfileFragment : BaseSearchFragment() {
@@ -91,6 +90,13 @@ class ProfileFragment : BaseSearchFragment() {
         } else {
             follow.isVisible = true
             unfollow.isVisible = false
+        }
+
+        if (profile.pk == sessionManager.cachedToken.value?.account_pk) {
+            follow.isVisible = false
+            unfollow.isVisible = false
+            textEditProfile.isVisible = true
+            textEditProfile.text = ""
         }
 
         (activity as AppCompatActivity).supportActionBar?.title = profile.username

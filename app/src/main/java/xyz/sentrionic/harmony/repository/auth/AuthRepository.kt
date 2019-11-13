@@ -46,7 +46,7 @@ constructor(
     fun attemptLogin(email: String, password: String): LiveData<DataState<AuthViewState>> {
 
         val loginFieldErrors = LoginFields(email, password).isValidForLogin()
-        if (!loginFieldErrors.equals(LoginFields.LoginError.none())) {
+        if (loginFieldErrors != LoginFields.LoginError.none()) {
             return returnErrorResponse(loginFieldErrors, ResponseType.Dialog())
         }
 

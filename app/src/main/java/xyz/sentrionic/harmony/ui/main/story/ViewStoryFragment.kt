@@ -10,11 +10,11 @@ import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.AreYouSureCallback
 import xyz.sentrionic.harmony.ui.UIMessage
 import xyz.sentrionic.harmony.ui.UIMessageType
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.setUsername
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.*
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.isAuthorOfStoryPost
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.removeDeletedStoryPost
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.setIsAuthorOfStoryPost
+import xyz.sentrionic.harmony.ui.main.story.viewmodel.setUsername
 import xyz.sentrionic.harmony.util.DateUtils
 import xyz.sentrionic.harmony.util.Heart
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.SUCCESS_STORY_DELETED

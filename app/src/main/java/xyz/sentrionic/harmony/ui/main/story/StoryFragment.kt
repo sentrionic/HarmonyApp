@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.layout_story_list_item.view.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.DataState
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.setUsername
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.LikeStoryPostEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*

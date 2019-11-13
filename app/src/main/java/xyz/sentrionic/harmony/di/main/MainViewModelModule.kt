@@ -7,7 +7,6 @@ import dagger.multibindings.IntoMap
 import xyz.sentrionic.harmony.di.ViewModelKey
 import xyz.sentrionic.harmony.ui.main.account.AccountViewModel
 import xyz.sentrionic.harmony.ui.main.create_story.CreateStoryViewModel
-import xyz.sentrionic.harmony.ui.main.search.SearchViewModel
 import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
 @Module
@@ -22,11 +21,6 @@ abstract class MainViewModelModule {
     @IntoMap
     @ViewModelKey(StoryViewModel::class)
     abstract fun bindStoryViewModel(storyViewModel: StoryViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SearchViewModel::class)
-    abstract fun bindSearchViewModel(searchViewModel: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap

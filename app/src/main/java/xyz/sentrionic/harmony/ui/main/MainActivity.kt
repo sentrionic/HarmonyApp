@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.progress_bar
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.ui.BaseActivity
 import xyz.sentrionic.harmony.ui.auth.AuthActivity
@@ -21,6 +19,7 @@ import xyz.sentrionic.harmony.ui.main.account.BaseAccountFragment
 import xyz.sentrionic.harmony.ui.main.account.ChangePasswordFragment
 import xyz.sentrionic.harmony.ui.main.account.UpdateAccountFragment
 import xyz.sentrionic.harmony.ui.main.create_story.BaseCreateStoryFragment
+import xyz.sentrionic.harmony.ui.main.search.BaseSearchFragment
 import xyz.sentrionic.harmony.ui.main.story.BaseStoryFragment
 import xyz.sentrionic.harmony.ui.main.story.ViewStoryFragment
 import xyz.sentrionic.harmony.util.BottomNavController
@@ -155,6 +154,9 @@ class MainActivity : BaseActivity(),
                     fragment.cancelActiveJobs()
                 }
                 if (fragment is BaseCreateStoryFragment) {
+                    fragment.cancelActiveJobs()
+                }
+                if (fragment is BaseSearchFragment) {
                     fragment.cancelActiveJobs()
                 }
             }

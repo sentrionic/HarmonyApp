@@ -12,7 +12,6 @@ import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.activity_auth.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.ui.BaseActivity
-import xyz.sentrionic.harmony.ui.ResponseType
 import xyz.sentrionic.harmony.ui.auth.state.AuthStateEvent
 import xyz.sentrionic.harmony.ui.main.MainActivity
 import xyz.sentrionic.harmony.util.SuccessHandling.Companion.RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE
@@ -48,9 +47,9 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
             dataState.data?.let { data ->
                 data.data?.let { event ->
                     event.getContentIfNotHandled()?.let {
-                        it.authToken?.let {
-                            Log.d(TAG, "AuthActivity, DataState: ${it}")
-                            viewModel.setAuthToken(it)
+                        it.authToken?.let { authToken ->
+                            Log.d(TAG, "AuthActivity, DataState: ${authToken}")
+                            viewModel.setAuthToken(authToken)
                         }
                     }
                 }
@@ -68,8 +67,8 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         })
 
         viewModel.viewState.observe(this, Observer {
-            it.authToken?.let {
-                sessionManager.login(it)
+            it.authToken?.let { authToken ->
+                sessionManager.login(authToken)
             }
         })
 

@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_profile_search.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.ui.DataState
-import xyz.sentrionic.harmony.ui.main.search.viewmodel.*
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
+import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
 import xyz.sentrionic.harmony.util.ErrorHandling
 import xyz.sentrionic.harmony.util.TopSpacingItemDecoration
 
