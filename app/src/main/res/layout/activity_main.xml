@@ -10,7 +10,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/app_bar"
         >
 
@@ -60,7 +60,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="45dp"
         android:layout_gravity="bottom"
         android:background="#fff"
         app:itemTextColor="@color/bottom_nav_selector"

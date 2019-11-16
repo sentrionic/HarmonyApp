@@ -8,8 +8,29 @@
 
     <fragment android:id="@+id/createStoryFragment"
         android:name="xyz.sentrionic.harmony.ui.main.create_story.CreateStoryFragment"
-        android:label="@string/fragment_create_blog"
-        tools:layout="@layout/fragment_create_story">
+        android:label=""
+        tools:layout="@layout/fragment_gallery">
 
+        <action
+            android:id="@+id/action_createStoryFragment_to_shareStoryFragment"
+            app:destination="@id/shareStoryFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/shareStoryFragment"
+        android:name="xyz.sentrionic.harmony.ui.main.create_story.ShareStoryFragment"
+        android:label="ShareStoryFragment" >
+        <action
+            android:id="@+id/action_shareStoryFragment_to_createStoryFragment"
+            app:destination="@id/createStoryFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_account"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

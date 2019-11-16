@@ -4,10 +4,11 @@
 
 
     <item
-            android:id="@+id/publish"
-            android:title="Publish"
-            app:showAsAction="ifRoom"
-            />
+        android:id="@+id/publish"
+        android:title="Share"
+        app:showAsAction="ifRoom"
+        app:itemTextColor="@color/link_blue"
+        />
 
 
 </menu>

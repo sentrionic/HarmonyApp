@@ -10,9 +10,10 @@ import xyz.sentrionic.harmony.ui.BaseViewModel
 import xyz.sentrionic.harmony.ui.DataState
 import xyz.sentrionic.harmony.ui.Loading
 import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryStateEvent
-import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryStateEvent.*
+import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryStateEvent.CreateNewStoryEvent
+import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryStateEvent.None
 import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryViewState
-import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryViewState.*
+import xyz.sentrionic.harmony.ui.main.create_story.state.CreateStoryViewState.NewStoryFields
 import xyz.sentrionic.harmony.util.AbsentLiveData
 import javax.inject.Inject
 
@@ -87,7 +88,6 @@ constructor(
         caption?.let { newStoryFields.newStoryCaption = it }
         uri?.let{ newStoryFields.newImageUri = it }
         update.storyFields = newStoryFields
-        _viewState.value = update
+        setViewState(update)
     }
-
 }
