@@ -3,6 +3,7 @@ package xyz.sentrionic.harmony.ui.main.story
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils
+import xyz.sentrionic.harmony.repository.main.CommentRepository
 import xyz.sentrionic.harmony.repository.main.SearchRepository
 import xyz.sentrionic.harmony.repository.main.StoryRepository
 import xyz.sentrionic.harmony.session.SessionManager
@@ -25,6 +26,7 @@ constructor(
     private val storyRepository: StoryRepository,
     private val sharedPreferences: SharedPreferences,
     private val searchRepository: SearchRepository,
+    private val commentRepository: CommentRepository,
     private val editor: SharedPreferences.Editor
 ): BaseViewModel<StoryStateEvent, StoryViewState>() {
 
@@ -112,6 +114,16 @@ constructor(
                     searchRepository.getProfile(
                         authToken = authToken,
                         username = getUsername()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
+            is GetStoryPostComments -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    commentRepository.searchComments(
+                        authToken = authToken,
+                        query = getStoryPost().slug,
+                        page = getCommentPage()
                     )
                 }?: AbsentLiveData.create()
             }

@@ -1,9 +1,13 @@
 package xyz.sentrionic.harmony.ui.main.story.viewmodel
 
+import xyz.sentrionic.harmony.models.Comment
 import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
+/**
+ * Story Setters
+ */
 fun StoryViewModel.setQuery(query: String ) {
     val update = getCurrentViewStateOrNew()
     update.storyFields.searchQuery = query
@@ -69,6 +73,9 @@ fun StoryViewModel.removeDeletedStoryPost() {
     setStoryListData(list)
 }
 
+/**
+ * Profile Setters
+ */
 fun StoryViewModel.setUserQuery(query: String ) {
     val update = getCurrentViewStateOrNew()
     update.userFields.searchQuery = query
@@ -102,5 +109,27 @@ fun StoryViewModel.setUserQueryExhausted(isExhausted: Boolean) {
 fun StoryViewModel.setUserQueryInProgress(isInProgress: Boolean) {
     val update = getCurrentViewStateOrNew()
     update.userFields.isQueryInProgress = isInProgress
+    setViewState(update)
+}
+
+/**
+ * Comment Setters
+ */
+
+fun StoryViewModel.setCommentListData(comments: List<Comment>) {
+    val update = getCurrentViewStateOrNew()
+    update.viewCommentsFields.commentList = comments
+    setViewState(update)
+}
+
+fun StoryViewModel.setCommentQueryExhausted(isExhausted: Boolean) {
+    val update = getCurrentViewStateOrNew()
+    update.viewCommentsFields.isQueryExhausted = isExhausted
+    setViewState(update)
+}
+
+fun StoryViewModel.setCommentQueryInProgress(isInProgress: Boolean) {
+    val update = getCurrentViewStateOrNew()
+    update.viewCommentsFields.isQueryInProgress = isInProgress
     setViewState(update)
 }

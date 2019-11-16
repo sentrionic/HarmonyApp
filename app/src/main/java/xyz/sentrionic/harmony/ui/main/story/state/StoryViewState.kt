@@ -1,5 +1,6 @@
 package xyz.sentrionic.harmony.ui.main.story.state
 
+import xyz.sentrionic.harmony.models.Comment
 import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.ORDER_BY_ASC_DATE_UPDATED
@@ -15,7 +16,9 @@ data class StoryViewState (
 
     var userFields: UserFields = UserFields(),
 
-    var viewProfileFields: ViewProfileField = ViewProfileField()
+    var viewProfileFields: ViewProfileField = ViewProfileField(),
+
+    var viewCommentsFields: ViewCommentsFields = ViewCommentsFields()
 )
 {
     data class StoryFields(
@@ -45,6 +48,14 @@ data class StoryViewState (
         var profile: Profile? = null,
         var isFollowing: Boolean = false,
         var username: String? = null
+    )
+
+    data class ViewCommentsFields(
+        var commentList: List<Comment> = ArrayList(),
+        var searchQuery: String = "",
+        var page: Int = 1,
+        var isQueryInProgress: Boolean = false,
+        var isQueryExhausted: Boolean = false
     )
 
 }

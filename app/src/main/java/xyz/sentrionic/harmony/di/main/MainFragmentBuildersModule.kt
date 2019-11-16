@@ -11,6 +11,7 @@ import xyz.sentrionic.harmony.ui.main.search.ProfileFragment
 import xyz.sentrionic.harmony.ui.main.search.ProfileSearchFragment
 import xyz.sentrionic.harmony.ui.main.search.SearchFragment
 import xyz.sentrionic.harmony.ui.main.story.StoryFragment
+import xyz.sentrionic.harmony.ui.main.story.ViewCommentFragment
 import xyz.sentrionic.harmony.ui.main.story.ViewStoryFragment
 
 @Module
@@ -45,4 +46,7 @@ abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector()
     abstract fun contributeShareStoryFragment(): ShareStoryFragment
+
+    @ContributesAndroidInjector()
+    abstract fun contributeViewCommentsFragment(): ViewCommentFragment
 }

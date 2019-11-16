@@ -21,7 +21,7 @@ class StoryListAdapter(private val requestManager: RequestManager,
     private val TAG: String = "AppDebug"
     private val NO_MORE_RESULTS = -1
     private val STORY_ITEM = 0
-    private val NO_MORE_RESULTS_BLOG_MARKER = StoryPost(
+    private val NO_MORE_RESULTS_STORY_MARKER = StoryPost(
         NO_MORE_RESULTS,
         "" ,
         "",
@@ -142,7 +142,7 @@ class StoryListAdapter(private val requestManager: RequestManager,
     fun submitList(storyList: List<StoryPost>?, isQueryExhausted: Boolean) {
         val newList = storyList?.toMutableList()
         if (isQueryExhausted)
-            newList?.add(NO_MORE_RESULTS_BLOG_MARKER)
+            newList?.add(NO_MORE_RESULTS_STORY_MARKER)
         differ.submitList(newList)
     }
 

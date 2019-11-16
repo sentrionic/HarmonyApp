@@ -7,11 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import xyz.sentrionic.harmony.api.GenericResponse
 import xyz.sentrionic.harmony.api.main.HarmonyMainService
-import xyz.sentrionic.harmony.api.main.responses.StoryCreateUpdateResponse
 import xyz.sentrionic.harmony.api.main.responses.StoryListSearchResponse
 import xyz.sentrionic.harmony.models.AuthToken
 import xyz.sentrionic.harmony.models.StoryPost
@@ -21,11 +18,11 @@ import xyz.sentrionic.harmony.repository.JobManager
 import xyz.sentrionic.harmony.repository.NetworkBoundResource
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.DataState
-import xyz.sentrionic.harmony.ui.Loading
 import xyz.sentrionic.harmony.ui.Response
 import xyz.sentrionic.harmony.ui.ResponseType
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
-import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState.*
+import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState.StoryFields
+import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState.ViewStoryFields
 import xyz.sentrionic.harmony.util.*
 import xyz.sentrionic.harmony.util.Constants.Companion.PAGINATION_PAGE_SIZE
 import xyz.sentrionic.harmony.util.ErrorHandling.Companion.ERROR_UNKNOWN
@@ -288,89 +285,6 @@ constructor(
 
             override fun setJob(job: Job) {
                 addJob("deleteStoryPost", job)
-            }
-
-        }.asLiveData()
-    }
-
-    fun updateStoryPost(
-        authToken: AuthToken,
-        slug: String,
-        caption: RequestBody,
-        tags: RequestBody,
-        image: MultipartBody.Part?
-    ): LiveData<DataState<StoryViewState>> {
-        return object: NetworkBoundResource<StoryCreateUpdateResponse, StoryPost, StoryViewState>(
-            sessionManager.isConnectedToTheInternet(),
-            true,
-            true,
-            false
-        ){
-
-            // not applicable
-            override suspend fun createCacheRequestAndReturn() {}
-
-            override suspend fun handleApiSuccessResponse(
-                response: ApiSuccessResponse<StoryCreateUpdateResponse>
-            ) {
-
-                val updatedStoryPost = StoryPost(
-                    response.body.pk,
-                    response.body.slug,
-                    response.body.caption,
-                    response.body.image,
-                    0,
-                    response.body.username,
-                    response.body.tags,
-                    0,
-                    false,
-                    ""
-                )
-
-                updateLocalDb(updatedStoryPost)
-
-                withContext(Dispatchers.Main){
-                    // finish with success response
-                    onCompleteJob(
-                        DataState.data(
-                            StoryViewState(
-                                viewStoryFields = ViewStoryFields(
-                                    storyPost = updatedStoryPost
-                                )
-                            ),
-                            Response(response.body.response, ResponseType.Toast())
-                        ))
-                }
-            }
-
-            // not applicable
-            override fun loadFromCache(): LiveData<StoryViewState> {
-                return AbsentLiveData.create()
-            }
-
-            override fun createCall(): LiveData<GenericApiResponse<StoryCreateUpdateResponse>> {
-                return harmonyMainService.updateStory(
-                    "Token ${authToken.token!!}",
-                    slug,
-                    caption,
-                    tags,
-                    image
-                )
-            }
-
-            override suspend fun updateLocalDb(cacheObject: StoryPost?) {
-                cacheObject?.let { storyPost ->
-                    storyPostDao.updateStoryPost(
-                        storyPost.pk,
-                        storyPost.caption,
-                        storyPost.tags,
-                        storyPost.image
-                    )
-                }
-            }
-
-            override fun setJob(job: Job) {
-                addJob("updateBlogPost", job)
             }
 
         }.asLiveData()

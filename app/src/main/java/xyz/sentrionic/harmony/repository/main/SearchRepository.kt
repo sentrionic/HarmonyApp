@@ -135,11 +135,11 @@ constructor(
                             } catch (e: Exception) {
                                 Log.e(
                                     TAG,
-                                    "updateLocalDb: error updating cache data on blog post with slug: ${profile.username}. " +
+                                    "updateLocalDb: error updating cache data on story post with slug: ${profile.username}. " +
                                             "${e.message}"
                                 )
                                 // Could send an error report here or something but I don't think you should throw an error to the UI
-                                // Since there could be many blog posts being inserted/updated.
+                                // Since there could be many story posts being inserted/updated.
                             }
                         }
                     }

@@ -16,6 +16,8 @@ sealed class StoryStateEvent {
 
     class FollowProfileEvent : StoryStateEvent()
 
+    class GetStoryPostComments : StoryStateEvent()
+
     class None : StoryStateEvent()
 
 }

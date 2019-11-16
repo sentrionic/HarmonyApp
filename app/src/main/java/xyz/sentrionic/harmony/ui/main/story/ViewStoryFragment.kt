@@ -116,6 +116,10 @@ class ViewStoryFragment : BaseStoryFragment() {
         story_profile_photo.setOnClickListener {
             goToProfile(storyPost.username)
         }
+
+        speech_bubble.setOnClickListener {
+            findNavController().navigate(R.id.action_viewStoryFragment_to_viewCommentFragment)
+        }
     }
 
     private fun toggleLike(storyPost: StoryPost) {

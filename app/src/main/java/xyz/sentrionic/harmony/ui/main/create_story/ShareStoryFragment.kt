@@ -83,7 +83,7 @@ class ShareStoryFragment : BaseCreateStoryFragment() {
         viewModel.viewState.value?.storyFields?.newImageUri?.let { imageUri ->
             imageUri.path?.let { filePath ->
                 val imageFile = File(filePath)
-                Log.d(TAG, "CreateBlogFragment, imageFile: file: ${imageFile}")
+                Log.d(TAG, "ShareStoryFragment, imageFile: file: ${imageFile}")
                 val requestBody =
                     RequestBody.create(
                         MediaType.parse("image/*"),

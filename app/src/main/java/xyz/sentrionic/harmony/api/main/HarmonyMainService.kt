@@ -5,16 +5,16 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 import xyz.sentrionic.harmony.api.GenericResponse
-import xyz.sentrionic.harmony.api.main.responses.AccountUpdateResponse
-import xyz.sentrionic.harmony.api.main.responses.ProfileListSearchResponse
-import xyz.sentrionic.harmony.api.main.responses.StoryCreateUpdateResponse
-import xyz.sentrionic.harmony.api.main.responses.StoryListSearchResponse
+import xyz.sentrionic.harmony.api.main.responses.*
 import xyz.sentrionic.harmony.models.AccountProperties
 import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.util.GenericApiResponse
 
 interface HarmonyMainService {
 
+    /**
+     * Account API
+     */
     @GET("account/properties")
     fun getAccountProperties(
         @Header("Authorization") authorization: String
@@ -47,14 +47,9 @@ interface HarmonyMainService {
         @Field("confirm_new_password") confirmNewPassword: String
     ): LiveData<GenericApiResponse<GenericResponse>>
 
-    @GET("story/list")
-    fun searchListStoryPosts(
-        @Header("Authorization") authorization: String,
-        @Query("search") query: String,
-        @Query("ordering") ordering: String,
-        @Query("page") page: Int
-    ): LiveData<GenericApiResponse<StoryListSearchResponse>>
-
+    /**
+     * Profile API
+     */
     @GET("account/profile_list/")
     fun searchProfiles(
         @Header("Authorization") authorization: String,
@@ -62,6 +57,23 @@ interface HarmonyMainService {
         @Query("ordering") ordering: String,
         @Query("page") page: Int
     ): LiveData<GenericApiResponse<ProfileListSearchResponse>>
+
+    @POST("account/{username}/follow")
+    fun toggleFollow(
+        @Header("Authorization") authorization: String,
+        @Path("username") username: String
+    ): LiveData<GenericApiResponse<GenericResponse>>
+
+    /**
+     * StoryPost API
+     */
+    @GET("story/list")
+    fun searchListStoryPosts(
+        @Header("Authorization") authorization: String,
+        @Query("search") query: String,
+        @Query("ordering") ordering: String,
+        @Query("page") page: Int
+    ): LiveData<GenericApiResponse<StoryListSearchResponse>>
 
     @GET("story/followed")
     fun searchFollowedListStoryPosts(
@@ -83,16 +95,6 @@ interface HarmonyMainService {
     ): LiveData<GenericApiResponse<GenericResponse>>
 
     @Multipart
-    @PUT("story/{slug}/update")
-    fun updateStory(
-        @Header("Authorization") authorization: String,
-        @Path("slug") slug: String,
-        @Part("caption") caption: RequestBody,
-        @Part("tags") tags: RequestBody,
-        @Part image: MultipartBody.Part?
-    ): LiveData<GenericApiResponse<StoryCreateUpdateResponse>>
-
-    @Multipart
     @POST("story/create")
     fun createStory(
         @Header("Authorization") authorization: String,
@@ -106,9 +108,13 @@ interface HarmonyMainService {
         @Path("slug") slug: String
     ): LiveData<GenericApiResponse<GenericResponse>>
 
-    @POST("account/{username}/follow")
-    fun toggleFollow(
+    /**
+     * Comment API
+     */
+    @GET("story/comments")
+    fun getStoryPostComments(
         @Header("Authorization") authorization: String,
-        @Path("username") username: String
-    ): LiveData<GenericApiResponse<GenericResponse>>
+        @Query("slug") query: String,
+        @Query("page") page: Int
+    ): LiveData<GenericApiResponse<CommentListResponse>>
 }

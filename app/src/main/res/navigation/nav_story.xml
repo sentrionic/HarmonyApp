@@ -49,6 +49,13 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_viewStoryFragment_to_viewCommentFragment"
+            app:destination="@id/viewCommentFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment2"
@@ -66,6 +73,20 @@
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_profileFragment2_to_viewStoryFragment"
+            app:destination="@id/viewStoryFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/nav_story"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/viewCommentFragment"
+        android:name="xyz.sentrionic.harmony.ui.main.story.ViewCommentFragment"
+        android:label="Comments" >
+        <action
+            android:id="@+id/action_viewCommentFragment_to_viewStoryFragment"
             app:destination="@id/viewStoryFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"

@@ -4,6 +4,9 @@ import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
 
+/**
+ * Story Getters
+ */
 fun StoryViewModel.getSearchQuery(): String {
     getCurrentViewStateOrNew().let{
         return it.storyFields.searchQuery
@@ -63,6 +66,13 @@ fun StoryViewModel.getStoryPost(): StoryPost {
     }
 }
 
+fun getDummyStoryPost(): StoryPost {
+    return StoryPost(-1, "" , "", "", 1, "", "", 0, false, "")
+}
+
+/**
+ * Profile Getters
+ */
 fun StoryViewModel.getProfile(): Profile {
     getCurrentViewStateOrNew().let {
         return it.viewProfileFields.profile?.let {
@@ -71,20 +81,16 @@ fun StoryViewModel.getProfile(): Profile {
     }
 }
 
+fun getDummyProfile(): Profile {
+    return Profile(-1, "", "", "", "", "", 0, 0, 0, false)
+}
+
 fun StoryViewModel.getUsername() : String {
     getCurrentViewStateOrNew().let {
         return it.viewProfileFields.username?.let {
             return it
         }?: ""
     }
-}
-
-fun StoryViewModel.getDummyStoryPost(): StoryPost {
-    return StoryPost(-1, "" , "", "", 1, "", "", 0, false, "")
-}
-
-fun StoryViewModel.getDummyProfile() : Profile {
-    return Profile(-1, "", "", "", "", "", 0, 0, 0, false)
 }
 
 fun StoryViewModel.getIsUserQueryExhausted(): Boolean {
@@ -108,6 +114,28 @@ fun StoryViewModel.getUserSearchQuery(): String {
 fun StoryViewModel.getUserPage(): Int{
     getCurrentViewStateOrNew().let{
         return it.userFields.page
+    }
+}
+
+/**
+ * Comment Getters
+ */
+
+fun StoryViewModel.getCommentPage(): Int{
+    getCurrentViewStateOrNew().let{
+        return it.viewCommentsFields.page
+    }
+}
+
+fun StoryViewModel.getIsCommentQueryExhausted(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.viewCommentsFields.isQueryExhausted
+    }
+}
+
+fun StoryViewModel.getIsCommentQueryInProgress(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.viewCommentsFields.isQueryInProgress
     }
 }
 
