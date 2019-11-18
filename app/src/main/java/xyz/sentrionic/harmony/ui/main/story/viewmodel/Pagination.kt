@@ -9,7 +9,7 @@ import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 /**
  * Story Pagination
  */
-fun StoryViewModel.resetPage(){
+fun StoryViewModel.resetPage() {
     val update = getCurrentViewStateOrNew()
     update.storyFields.page = 1
     setViewState(update)

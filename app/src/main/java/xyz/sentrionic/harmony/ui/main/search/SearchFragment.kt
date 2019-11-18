@@ -8,9 +8,6 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -19,16 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import kotlinx.android.synthetic.main.fragment_search.*
-
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.StoryPost
-import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_FILTER_DATE_PUBLISHED
-import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_FILTER_USERNAME
-import xyz.sentrionic.harmony.persistence.StoryQueryUtils.Companion.STORY_ORDER_ASC
 import xyz.sentrionic.harmony.ui.DataState
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
@@ -221,65 +211,5 @@ class SearchFragment : BaseSearchFragment(), GridListAdapter.Interaction,
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showFilterDialog() {
-
-        activity?.let {
-            val dialog = MaterialDialog(it)
-                .noAutoDismiss()
-                .customView(R.layout.layout_story_filter)
-
-            val view = dialog.getCustomView()
-
-            val filter = viewModel.getFilter()
-            val order = viewModel.getOrder()
-
-            if (filter == STORY_FILTER_DATE_PUBLISHED) {
-                view.findViewById<RadioGroup>(R.id.filter_group).check(R.id.filter_date)
-            } else {
-                view.findViewById<RadioGroup>(R.id.filter_group).check(R.id.filter_author)
-            }
-
-            if (order == STORY_ORDER_ASC) {
-                view.findViewById<RadioGroup>(R.id.order_group).check(R.id.filter_asc)
-            } else {
-                view.findViewById<RadioGroup>(R.id.order_group).check(R.id.filter_desc)
-            }
-
-            view.findViewById<TextView>(R.id.positive_button).setOnClickListener {
-                Log.d(TAG, "FilterDialog: apply filter.")
-
-                val selectedFilter = dialog.getCustomView().findViewById<RadioButton>(
-                    dialog.getCustomView().findViewById<RadioGroup>(R.id.filter_group).checkedRadioButtonId
-                )
-                val selectedOrder = dialog.getCustomView().findViewById<RadioButton>(
-                    dialog.getCustomView().findViewById<RadioGroup>(R.id.order_group).checkedRadioButtonId
-                )
-
-                var filter = STORY_FILTER_DATE_PUBLISHED
-                if (selectedFilter.text.toString() == getString(R.string.filter_author)) {
-                    filter = STORY_FILTER_USERNAME
-                }
-
-                var order = ""
-                if (selectedOrder.text.toString() == getString(R.string.filter_desc)) {
-                    order = "-"
-                }
-                viewModel.saveFilterOptions(filter, order).let {
-                    viewModel.setStoryFilter(filter)
-                    viewModel.setStoryOrder(order)
-                    onStorySearchOrFilter()
-                }
-                dialog.dismiss()
-            }
-
-            view.findViewById<TextView>(R.id.negative_button).setOnClickListener {
-                Log.d(TAG, "FilterDialog: cancelling filter.")
-                dialog.dismiss()
-            }
-
-            dialog.show()
-        }
     }
 }

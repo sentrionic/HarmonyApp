@@ -43,9 +43,19 @@ interface StoryPostDao {
         UPDATE story_post SET caption = :caption, tags = :tags, image = :image 
         WHERE pk = :pk
         """)
-
     fun updateStoryPost(pk: Int, caption: String, tags: String, image: String)
 
     @Query("UPDATE story_post SET likes = :likes, liked = :liked WHERE pk = :pk")
     fun updateStoryPostLikes(pk: Int, likes: Int, liked: Boolean)
+
+    @Query("""
+        SELECT * FROM story_post
+        WHERE username LIKE '%' || :query || '%' 
+        LIMIT (:page * :pageSize)
+        """)
+    fun getAccountStories(
+        query: String,
+        page: Int,
+        pageSize: Int = PAGINATION_PAGE_SIZE
+    ): LiveData<List<StoryPost>>
 }

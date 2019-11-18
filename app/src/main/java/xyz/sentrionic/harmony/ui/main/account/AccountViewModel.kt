@@ -3,6 +3,7 @@ package xyz.sentrionic.harmony.ui.main.account
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import xyz.sentrionic.harmony.models.AccountProperties
+import xyz.sentrionic.harmony.persistence.StoryQueryUtils
 import xyz.sentrionic.harmony.repository.main.AccountRepository
 import xyz.sentrionic.harmony.session.SessionManager
 import xyz.sentrionic.harmony.ui.BaseViewModel
@@ -11,7 +12,9 @@ import xyz.sentrionic.harmony.ui.Loading
 import xyz.sentrionic.harmony.ui.main.account.state.AccountStateEvent
 import xyz.sentrionic.harmony.ui.main.account.state.AccountStateEvent.*
 import xyz.sentrionic.harmony.ui.main.account.state.AccountViewState
-import xyz.sentrionic.harmony.ui.main.account.state.AccountViewState.*
+import xyz.sentrionic.harmony.ui.main.account.state.AccountViewState.AccountStories
+import xyz.sentrionic.harmony.ui.main.account.state.AccountViewState.NewProfileField
+import xyz.sentrionic.harmony.ui.main.account.viewmodel.getPage
 import xyz.sentrionic.harmony.util.AbsentLiveData
 import javax.inject.Inject
 
@@ -69,6 +72,17 @@ constructor(
                 }?: AbsentLiveData.create()
             }
 
+            is GetAccountStoriesEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    accountRepository.getAccountStories(
+                        authToken,
+                        stateEvent.username,
+                        StoryQueryUtils.ORDER_BY_DESC_DATE_UPDATED + StoryQueryUtils.STORY_FILTER_USERNAME,
+                        getPage()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
             is None -> {
                 return object: LiveData<DataState<AccountViewState>>() {
                     override fun onActive() {
@@ -86,7 +100,13 @@ constructor(
             return
         }
         update.accountProperties = accountProperties
-        _viewState.value = update
+        setViewState(update)
+    }
+
+    fun setAccountStoryListData(accountStories: AccountStories) {
+        val update = getCurrentViewStateOrNew()
+        update.accountStories = accountStories
+        setViewState(update)
     }
 
     override fun initNewViewState(): AccountViewState {

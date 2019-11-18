@@ -30,11 +30,13 @@ class MainModule {
     fun provideAccountRepository(
         harmonyMainService: HarmonyMainService,
         accountPropertiesDao: AccountPropertiesDao,
+        storyPostDao: StoryPostDao,
         sessionManager: SessionManager
     ): AccountRepository {
         return AccountRepository(
             harmonyMainService,
             accountPropertiesDao,
+            storyPostDao,
             sessionManager
         )
     }

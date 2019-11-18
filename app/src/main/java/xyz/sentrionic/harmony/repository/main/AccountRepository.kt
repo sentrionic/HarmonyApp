@@ -1,5 +1,6 @@
 package xyz.sentrionic.harmony.repository.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.switchMap
 import kotlinx.coroutines.Dispatchers
@@ -11,9 +12,13 @@ import okhttp3.RequestBody
 import xyz.sentrionic.harmony.api.GenericResponse
 import xyz.sentrionic.harmony.api.main.HarmonyMainService
 import xyz.sentrionic.harmony.api.main.responses.AccountUpdateResponse
+import xyz.sentrionic.harmony.api.main.responses.StoryListSearchResponse
 import xyz.sentrionic.harmony.models.AccountProperties
 import xyz.sentrionic.harmony.models.AuthToken
+import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.persistence.AccountPropertiesDao
+import xyz.sentrionic.harmony.persistence.StoryPostDao
+import xyz.sentrionic.harmony.persistence.returnOrderedStoryQuery
 import xyz.sentrionic.harmony.repository.JobManager
 import xyz.sentrionic.harmony.repository.NetworkBoundResource
 import xyz.sentrionic.harmony.session.SessionManager
@@ -21,9 +26,7 @@ import xyz.sentrionic.harmony.ui.DataState
 import xyz.sentrionic.harmony.ui.Response
 import xyz.sentrionic.harmony.ui.ResponseType
 import xyz.sentrionic.harmony.ui.main.account.state.AccountViewState
-import xyz.sentrionic.harmony.util.AbsentLiveData
-import xyz.sentrionic.harmony.util.ApiSuccessResponse
-import xyz.sentrionic.harmony.util.GenericApiResponse
+import xyz.sentrionic.harmony.util.*
 import javax.inject.Inject
 
 class AccountRepository
@@ -31,6 +34,7 @@ class AccountRepository
 constructor(
     val harmonyMainService: HarmonyMainService,
     val accountPropertiesDao: AccountPropertiesDao,
+    val storyPostDao: StoryPostDao,
     val sessionManager: SessionManager
 ) : JobManager("AccountRepository") {
 
@@ -41,8 +45,8 @@ constructor(
             NetworkBoundResource<AccountProperties, AccountProperties, AccountViewState>(
                 sessionManager.isConnectedToTheInternet(),
                 true,
-                false,
-                true
+                true,
+                false
             ) {
 
             // if network is down, view the cache and return
@@ -230,6 +234,121 @@ constructor(
 
             override fun setJob(job: Job) {
                 addJob("updatePassword", job)
+            }
+
+        }.asLiveData()
+    }
+
+    fun getAccountStories(
+        authToken: AuthToken,
+        username: String,
+        filterAndOrder: String,
+        page: Int
+    ): LiveData<DataState<AccountViewState>> {
+        return object :
+            NetworkBoundResource<StoryListSearchResponse, List<StoryPost>, AccountViewState>(
+                sessionManager.isConnectedToTheInternet(),
+                true,
+                false,
+                true
+            ) {
+            // if network is down, view cache only and return
+            override suspend fun createCacheRequestAndReturn() {
+                withContext(Dispatchers.Main) {
+
+                    // finishing by viewing db cache
+                    result.addSource(loadFromCache()) { viewState ->
+                        viewState.accountStories!!.isQueryInProgress = false
+
+                        if (page * Constants.PAGINATION_PAGE_SIZE > viewState.accountStories!!.storyList!!.size) {
+                            viewState.accountStories!!.isQueryExhausted = true
+                        }
+                        onCompleteJob(DataState.data(viewState, null))
+                    }
+                }
+            }
+
+            override suspend fun handleApiSuccessResponse(
+                response: ApiSuccessResponse<StoryListSearchResponse>
+            ) {
+
+                val storyPostList: ArrayList<StoryPost> = ArrayList()
+                for (storyPostResponse in response.body.results) {
+                    storyPostList.add(
+                        StoryPost(
+                            pk = storyPostResponse.pk,
+                            slug = storyPostResponse.slug,
+                            caption = storyPostResponse.caption,
+                            image = storyPostResponse.image,
+                            date_published = DateUtils.convertServerStringDateToLong(
+                                storyPostResponse.date_published
+                            ),
+                            username = storyPostResponse.username,
+                            tags = storyPostResponse.tags,
+                            likes = storyPostResponse.likes,
+                            liked = storyPostResponse.liked,
+                            profile_image = storyPostResponse.profile_image
+                        )
+                    )
+                }
+                updateLocalDb(storyPostList)
+
+                createCacheRequestAndReturn()
+            }
+
+            override fun createCall(): LiveData<GenericApiResponse<StoryListSearchResponse>> {
+                return harmonyMainService.searchListStoryPosts(
+                    "Token ${authToken.token!!}",
+                    query = username,
+                    ordering = filterAndOrder,
+                    page = page
+                )
+            }
+
+            override fun loadFromCache(): LiveData<AccountViewState> {
+                return storyPostDao.returnOrderedStoryQuery(username, filterAndOrder, page)
+                    .switchMap {
+                        object : LiveData<AccountViewState>() {
+                            override fun onActive() {
+                                super.onActive()
+                                value = AccountViewState(
+                                    accountStories = AccountViewState.AccountStories(
+                                        storyList = it
+                                    )
+                                )
+                            }
+                        }
+                    }
+            }
+
+            override suspend fun updateLocalDb(cacheObject: List<StoryPost>?) {
+                // loop through list and update the local db
+                if (cacheObject != null) {
+                    withContext(Dispatchers.IO) {
+                        for (storyPost in cacheObject) {
+                            try {
+                                // Launch each insert as a separate job to be executed in parallel
+                                Log.d(TAG, "updateLocalDb: inserting story: ${storyPost}")
+                                storyPostDao.insert(storyPost)
+
+                            } catch (e: Exception) {
+                                Log.e(
+                                    TAG,
+                                    "updateLocalDb: error updating cache data on blog post with slug: ${storyPost.slug}. " +
+                                            "${e.message}"
+                                )
+                                // Could send an error report here or something but I don't think you should throw an error to the UI
+                                // Since there could be many blog posts being inserted/updated.
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "updateLocalDb: story post list is null")
+                }
+            }
+
+            override fun setJob(job: Job) {
+                addJob("searchStoryPost", job)
             }
 
         }.asLiveData()

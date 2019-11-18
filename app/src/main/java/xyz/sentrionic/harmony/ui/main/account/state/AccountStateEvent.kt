@@ -6,6 +6,8 @@ sealed class AccountStateEvent{
 
     class GetAccountPropertiesEvent: AccountStateEvent()
 
+    data class GetAccountStoriesEvent(val username: String): AccountStateEvent()
+
     data class UpdateAccountPropertiesEvent(
         val email: String,
         val username: String,
