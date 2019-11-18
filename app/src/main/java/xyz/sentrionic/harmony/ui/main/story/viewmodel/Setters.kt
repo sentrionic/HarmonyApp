@@ -133,3 +133,9 @@ fun StoryViewModel.setCommentQueryInProgress(isInProgress: Boolean) {
     update.viewCommentsFields.isQueryInProgress = isInProgress
     setViewState(update)
 }
+
+fun StoryViewModel.setComment(comment: String) {
+    val update = getCurrentViewStateOrNew()
+    update.viewCommentsFields.comment = comment
+    setViewState(update)
+}

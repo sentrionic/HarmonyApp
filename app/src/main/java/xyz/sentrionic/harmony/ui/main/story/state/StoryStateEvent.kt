@@ -18,6 +18,8 @@ sealed class StoryStateEvent {
 
     class GetStoryPostComments : StoryStateEvent()
 
+    class PostCommentEvent : StoryStateEvent()
+
     class None : StoryStateEvent()
 
 }

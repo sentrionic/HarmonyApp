@@ -144,6 +144,11 @@ class StoryFragment : BaseStoryFragment(), StoryListAdapter.Interaction, SwipeRe
         findNavController().navigate(R.id.action_storyFragment_to_profileFragment2)
     }
 
+    override fun onCommentSelected(position: Int, item: StoryPost) {
+        viewModel.setStoryPost(item)
+        findNavController().navigate(R.id.action_storyFragment_to_viewCommentFragment)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // clear references (can leak memory)

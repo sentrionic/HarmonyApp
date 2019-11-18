@@ -178,6 +178,11 @@ class StoryListAdapter(private val requestManager: RequestManager,
                 interaction?.onProfileSelected(adapterPosition, item)
             }
 
+            // Comment Interaction
+            itemView.speech_bubble.setOnClickListener {
+                interaction?.onCommentSelected(adapterPosition, item)
+            }
+
             requestManager
                 .load(item.image)
                 .transition(withCrossFade())
@@ -209,5 +214,6 @@ class StoryListAdapter(private val requestManager: RequestManager,
         fun onItemSelected(position: Int, item: StoryPost)
         fun onItemLiked(position: Int, item: StoryPost, heart: Heart, itemView: View)
         fun onProfileSelected(position: Int, item: StoryPost)
+        fun onCommentSelected(position: Int, item: StoryPost)
     }
 }

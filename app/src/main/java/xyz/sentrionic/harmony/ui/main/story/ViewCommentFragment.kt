@@ -2,6 +2,8 @@ package xyz.sentrionic.harmony.ui.main.story
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_view_comment.*
 import kotlinx.android.synthetic.main.snippet_comment_top.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.ui.DataState
+import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryViewState
 import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
 import xyz.sentrionic.harmony.util.DateUtils
@@ -41,6 +44,7 @@ class ViewCommentFragment : BaseStoryFragment(), SwipeRefreshLayout.OnRefreshLis
         setStoryPostDescription()
         initRecyclerView()
         subscribeObservers()
+        initCommentField()
 
         if (savedInstanceState == null) viewModel.loadFirstCommentPage()
     }
@@ -54,7 +58,7 @@ class ViewCommentFragment : BaseStoryFragment(), SwipeRefreshLayout.OnRefreshLis
         })
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
-            Log.d(TAG, "ViewCommentFragment, ViewState: ${viewState}")
+            Log.d(TAG, "ViewCommentFragment, ViewState: ${viewState.viewCommentsFields}")
             if (viewState != null) {
                 recyclerAdapter.apply {
                     preloadGlideImages(
@@ -121,7 +125,6 @@ class ViewCommentFragment : BaseStoryFragment(), SwipeRefreshLayout.OnRefreshLis
             })
             adapter = recyclerAdapter
         }
-
     }
 
     private fun setStoryPostDescription() {
@@ -135,6 +138,28 @@ class ViewCommentFragment : BaseStoryFragment(), SwipeRefreshLayout.OnRefreshLis
         description.text = storyPost.caption
         description_time_posted.text = DateUtils.convertLongToStringDate(storyPost.date_published)
 
+    }
+
+    private fun initCommentField() {
+
+        comment_send.isEnabled = false
+
+        comment_edittext.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                comment_send.isEnabled = s?.isNotBlank()!!
+            }
+
+        })
+
+        comment_send.setOnClickListener {
+            viewModel.setComment(comment_edittext.text.toString())
+            viewModel.setStateEvent(StoryStateEvent.PostCommentEvent())
+            clearUI()
+        }
     }
 
     override fun onDestroyView() {
@@ -154,9 +179,17 @@ class ViewCommentFragment : BaseStoryFragment(), SwipeRefreshLayout.OnRefreshLis
         }
     }
 
-    private  fun resetUI() {
+    private fun resetUI() {
         comment_recyclerview.smoothScrollToPosition(0)
         stateChangeListener.hideSoftKeyboard()
         focusable_view.requestFocus()
+    }
+
+    private fun clearUI() {
+        comment_recyclerview.smoothScrollToPosition(recyclerAdapter.itemCount)
+        stateChangeListener.hideSoftKeyboard()
+        focusable_view.requestFocus()
+        comment_edittext.setText("")
+        viewModel.setComment("")
     }
 }

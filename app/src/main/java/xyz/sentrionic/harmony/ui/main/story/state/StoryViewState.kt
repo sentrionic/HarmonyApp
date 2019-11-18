@@ -55,7 +55,7 @@ data class StoryViewState (
         var searchQuery: String = "",
         var page: Int = 1,
         var isQueryInProgress: Boolean = false,
-        var isQueryExhausted: Boolean = false
+        var isQueryExhausted: Boolean = false,
+        var comment: String? = null
     )
-
 }

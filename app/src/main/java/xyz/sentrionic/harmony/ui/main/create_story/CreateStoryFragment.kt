@@ -170,6 +170,12 @@ class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelecte
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
+        if (stateChangeListener.isStoragePermissionGranted()) {
+            setupMenu(menu)
+        }
+    }
+
+    private fun setupMenu(menu: Menu) {
         val toolbar : MenuItem = menu.findItem(R.id.gallery_spinner)
         val rootView : View = toolbar.actionView
 
@@ -197,7 +203,6 @@ class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelecte
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = this
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -123,7 +123,19 @@ constructor(
                     commentRepository.searchComments(
                         authToken = authToken,
                         query = getStoryPost().slug,
-                        page = getCommentPage()
+                        page = getCommentPage(),
+                        oldCommentList = getCommentList()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
+            is PostCommentEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    commentRepository.postComment(
+                        authToken = authToken,
+                        slug = getStoryPost().slug,
+                        comment = getComment(),
+                        commentList = getCommentList()
                     )
                 }?: AbsentLiveData.create()
             }

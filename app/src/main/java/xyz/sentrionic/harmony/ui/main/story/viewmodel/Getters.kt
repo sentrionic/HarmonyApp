@@ -1,5 +1,6 @@
 package xyz.sentrionic.harmony.ui.main.story.viewmodel
 
+import xyz.sentrionic.harmony.models.Comment
 import xyz.sentrionic.harmony.models.Profile
 import xyz.sentrionic.harmony.models.StoryPost
 import xyz.sentrionic.harmony.ui.main.story.StoryViewModel
@@ -136,6 +137,18 @@ fun StoryViewModel.getIsCommentQueryExhausted(): Boolean {
 fun StoryViewModel.getIsCommentQueryInProgress(): Boolean {
     getCurrentViewStateOrNew().let {
         return it.viewCommentsFields.isQueryInProgress
+    }
+}
+
+fun StoryViewModel.getComment(): String {
+    getCurrentViewStateOrNew().let {
+        return it.viewCommentsFields.comment!!
+    }
+}
+
+fun StoryViewModel.getCommentList(): List<Comment> {
+    getCurrentViewStateOrNew().let {
+        return it.viewCommentsFields.commentList
     }
 }
 

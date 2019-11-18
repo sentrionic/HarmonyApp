@@ -117,4 +117,12 @@ interface HarmonyMainService {
         @Query("slug") query: String,
         @Query("page") page: Int
     ): LiveData<GenericApiResponse<CommentListResponse>>
+
+    @POST("story/{slug}/comment")
+    @FormUrlEncoded
+    fun postComment(
+        @Header("Authorization") authorization: String,
+        @Path("slug") slug: String,
+        @Field("comment") comment: String
+    ): LiveData<GenericApiResponse<CommentResponse>>
 }

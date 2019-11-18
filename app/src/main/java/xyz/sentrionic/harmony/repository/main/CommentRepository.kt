@@ -34,7 +34,8 @@ constructor(
     fun searchComments(
         authToken: AuthToken,
         query: String,
-        page: Int
+        page: Int,
+        oldCommentList: List<Comment>
     ): LiveData<DataState<StoryViewState>> {
         return object :
             NetworkBoundResource<CommentListResponse, List<CommentResponse>, StoryViewState>(
@@ -65,15 +66,17 @@ constructor(
                     )
                 }
 
+                val list = oldCommentList + commentList
+
                 withContext(Dispatchers.Main) {
                     // finish with success response
                     onCompleteJob(
                         DataState.data(
                             StoryViewState(
                                 viewCommentsFields = ViewCommentsFields(
-                                    commentList = commentList,
+                                    commentList = list,
                                     isQueryInProgress = false,
-                                    isQueryExhausted = page * PAGINATION_PAGE_SIZE > commentList.size
+                                    isQueryExhausted = page * PAGINATION_PAGE_SIZE > list.size
                                 )
                             )
                         ))
@@ -96,6 +99,68 @@ constructor(
 
             override fun setJob(job: Job) {
                 addJob("searchComments", job)
+            }
+
+        }.asLiveData()
+    }
+
+    fun postComment(
+        authToken: AuthToken,
+        slug: String,
+        comment: String,
+        commentList: List<Comment>) : LiveData<DataState<StoryViewState>> {
+
+        return object : NetworkBoundResource<CommentResponse, Comment, StoryViewState>(
+            sessionManager.isConnectedToTheInternet(),
+            true,
+            true,
+            false
+        ) {
+            override suspend fun createCacheRequestAndReturn() {}
+
+            override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<CommentResponse>) {
+
+                val newComment = Comment(
+                    pk = response.body.pk,
+                    comment = response.body.comment,
+                    image = response.body.image,
+                    date_published = DateUtils.convertServerStringDateToLong(response.body.date_published),
+                    username = response.body.username,
+                    likes = response.body.likes
+                )
+
+                val newCommentList = commentList + newComment
+
+                withContext(Dispatchers.Main) {
+                    // finish with success response
+                    onCompleteJob(
+                        DataState.data(
+                            StoryViewState(
+                                viewCommentsFields = ViewCommentsFields(
+                                    commentList = newCommentList
+                                )
+                            )
+                        )
+                    )
+                }
+            }
+
+            override fun createCall(): LiveData<GenericApiResponse<CommentResponse>> {
+                return harmonyMainService.postComment(
+                    authorization = "Token ${authToken.token!!}",
+                    slug = slug,
+                    comment = comment
+                )
+            }
+
+            override fun loadFromCache(): LiveData<StoryViewState> {
+                return AbsentLiveData.create()
+            }
+
+            override suspend fun updateLocalDb(cacheObject: Comment?) {}
+
+            override fun setJob(job: Job) {
+                addJob("postComment", job)
             }
 
         }.asLiveData()
