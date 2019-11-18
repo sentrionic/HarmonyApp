@@ -112,6 +112,24 @@ fun StoryViewModel.setUserQueryInProgress(isInProgress: Boolean) {
     setViewState(update)
 }
 
+fun StoryViewModel.setProfileStoryListQueryExhausted(isExhausted: Boolean) {
+    val update = getCurrentViewStateOrNew()
+    update.viewProfileFields.isQueryExhausted = isExhausted
+    setViewState(update)
+}
+
+fun StoryViewModel.setProfileStoryListQueryInProgress(isInProgress: Boolean) {
+    val update = getCurrentViewStateOrNew()
+    update.viewProfileFields.isQueryInProgress = isInProgress
+    setViewState(update)
+}
+
+fun StoryViewModel.setProfileStoryList(storyList: List<StoryPost>) {
+    val update = getCurrentViewStateOrNew()
+    update.viewProfileFields.profileStories = storyList
+    setViewState(update)
+}
+
 /**
  * Comment Setters
  */

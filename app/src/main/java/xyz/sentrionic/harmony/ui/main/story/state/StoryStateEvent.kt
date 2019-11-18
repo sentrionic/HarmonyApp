@@ -8,6 +8,8 @@ sealed class StoryStateEvent {
 
     class GetProfilePropertiesEvent : StoryStateEvent()
 
+    class GetProfileStoriesEvent: StoryStateEvent()
+
     class CheckAuthorOfStoryPost : StoryStateEvent()
 
     class DeleteStoryPostEvent : StoryStateEvent()

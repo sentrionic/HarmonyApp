@@ -168,7 +168,7 @@ class AccountFragment : BaseAccountFragment(), GridListAdapter.Interaction {
                     val lastPosition = layoutManager.findLastVisibleItemPosition()
                     if (lastPosition == recyclerAdapter.itemCount.minus(1)) {
                         Log.d(TAG, "AccountFragment: attempting to load next page...")
-                        viewModel.nextPage()
+                        viewModel.nextPage(viewModel.viewState.value!!.accountProperties!!.username)
                     }
                 }
             })

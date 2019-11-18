@@ -18,12 +18,12 @@ private fun AccountViewModel.incrementPageNumber() {
     setViewState(update)
 }
 
-fun AccountViewModel.nextPage() {
+fun AccountViewModel.nextPage(username: String) {
     if (!getIsQueryInProgress() && !getIsQueryExhausted()) {
         Log.d(TAG, "AccountViewState: Attempting to load next page...")
         incrementPageNumber()
         setQueryInProgress(true)
-        setStateEvent(AccountStateEvent.GetAccountStoriesEvent("sentrionic"))
+        setStateEvent(AccountStateEvent.GetAccountStoriesEvent(username))
     }
 }
 

@@ -363,4 +363,114 @@ constructor(
         }.asLiveData()
     }
 
+    fun getProfileStories(
+        authToken: AuthToken,
+        username: String,
+        filterAndOrder: String,
+        page: Int
+    ): LiveData<DataState<StoryViewState>> {
+        return object :
+            NetworkBoundResource<StoryListSearchResponse, List<StoryPost>, StoryViewState>(
+                sessionManager.isConnectedToTheInternet(),
+                true,
+                false,
+                true
+            ) {
+            // if network is down, view cache only and return
+            override suspend fun createCacheRequestAndReturn() {
+                withContext(Dispatchers.Main) {
+
+                    // finishing by viewing db cache
+                    result.addSource(loadFromCache()) { viewState ->
+                        onCompleteJob(DataState.data(viewState, null))
+                    }
+                }
+            }
+
+            override suspend fun handleApiSuccessResponse(
+                response: ApiSuccessResponse<StoryListSearchResponse>
+            ) {
+
+                val storyPostList: ArrayList<StoryPost> = ArrayList()
+                for (storyPostResponse in response.body.results) {
+                    storyPostList.add(
+                        StoryPost(
+                            pk = storyPostResponse.pk,
+                            slug = storyPostResponse.slug,
+                            caption = storyPostResponse.caption,
+                            image = storyPostResponse.image,
+                            date_published = DateUtils.convertServerStringDateToLong(
+                                storyPostResponse.date_published
+                            ),
+                            username = storyPostResponse.username,
+                            tags = storyPostResponse.tags,
+                            likes = storyPostResponse.likes,
+                            liked = storyPostResponse.liked,
+                            profile_image = storyPostResponse.profile_image
+                        )
+                    )
+                }
+                updateLocalDb(storyPostList)
+
+                createCacheRequestAndReturn()
+            }
+
+            override fun createCall(): LiveData<GenericApiResponse<StoryListSearchResponse>> {
+                return harmonyMainService.searchListStoryPosts(
+                    "Token ${authToken.token!!}",
+                    query = username,
+                    ordering = filterAndOrder,
+                    page = page
+                )
+            }
+
+            override fun loadFromCache(): LiveData<StoryViewState> {
+                return storyPostDao.returnOrderedStoryQuery(username, filterAndOrder, page)
+                    .switchMap {
+                        object : LiveData<StoryViewState>() {
+                            override fun onActive() {
+                                super.onActive()
+                                value = StoryViewState(
+                                    viewProfileFields = StoryViewState.ViewProfileField(
+                                        profileStories = it
+                                    )
+                                )
+                            }
+                        }
+                    }
+            }
+
+            override suspend fun updateLocalDb(cacheObject: List<StoryPost>?) {
+                // loop through list and update the local db
+                if (cacheObject != null) {
+                    withContext(IO) {
+                        for (storyPost in cacheObject) {
+                            try {
+                                // Launch each insert as a separate job to be executed in parallel
+                                Log.d(TAG, "updateLocalDb: inserting story: ${storyPost}")
+                                storyPostDao.insert(storyPost)
+
+                            } catch (e: Exception) {
+                                Log.e(
+                                    TAG,
+                                    "updateLocalDb: error updating cache data on blog post with slug: ${storyPost.slug}. " +
+                                            "${e.message}"
+                                )
+                                // Could send an error report here or something but I don't think you should throw an error to the UI
+                                // Since there could be many blog posts being inserted/updated.
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "updateLocalDb: story post list is null")
+                }
+            }
+
+            override fun setJob(job: Job) {
+                addJob("searchStoryPost", job)
+            }
+
+        }.asLiveData()
+    }
+
 }

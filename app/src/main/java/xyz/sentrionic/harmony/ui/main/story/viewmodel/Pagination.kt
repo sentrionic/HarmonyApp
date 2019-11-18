@@ -94,6 +94,33 @@ fun StoryViewModel.handleIncomingProfileListData(viewState: StoryViewState) {
     setProfileListData(viewState.userFields.userList)
 }
 
+fun StoryViewModel.handleIncomingProfileStoryListData(viewState: StoryViewState) {
+    Log.d(TAG, "StoryViewState, UserQuery, DataState: ${viewState}")
+    Log.d(TAG, "StoryViewState, UserQuery, DataState: isQueryInProgress?: " +
+            "${viewState.userFields.isQueryInProgress}")
+    Log.d(TAG, "StoryViewModel, DataState: isQueryExhausted?: " +
+            "${viewState.userFields.isQueryExhausted}")
+    setProfileStoryListQueryInProgress(viewState.viewProfileFields.isQueryInProgress)
+    setProfileStoryListQueryExhausted(viewState.viewProfileFields.isQueryExhausted)
+    setProfileStoryList(viewState.viewProfileFields.profileStories!!)
+}
+
+fun StoryViewModel.nextProfileStoryPage() {
+    if (!getIsProfileStoryListQueryInProgress() && !getIsProfileStoryListQueryExhausted()) {
+        Log.d(TAG, "StoryViewModel: Attempting to load next page...")
+        incrementProfileStoryListPageNumber()
+        setProfileStoryListQueryInProgress(true)
+        setStateEvent(GetProfileStoriesEvent())
+    }
+}
+
+private fun StoryViewModel.incrementProfileStoryListPageNumber() {
+    val update = getCurrentViewStateOrNew()
+    val page = update.copy().userFields.page // get current page
+    update.viewProfileFields.page = page + 1
+    setViewState(update)
+}
+
 /**
  * Comment Pagination
  */

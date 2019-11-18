@@ -9,17 +9,27 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_center_profile.*
 import kotlinx.android.synthetic.main.snippet_top_profile.*
 import xyz.sentrionic.harmony.R
 import xyz.sentrionic.harmony.models.Profile
+import xyz.sentrionic.harmony.models.StoryPost
+import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.FollowProfileEvent
 import xyz.sentrionic.harmony.ui.main.story.state.StoryStateEvent.GetProfilePropertiesEvent
-import xyz.sentrionic.harmony.ui.main.story.viewmodel.setProfile
+import xyz.sentrionic.harmony.ui.main.story.viewmodel.*
+import xyz.sentrionic.harmony.util.ErrorHandling
+import xyz.sentrionic.harmony.util.GridListAdapter
+import xyz.sentrionic.harmony.util.GridSpacingItemDecoration
 
 
-class ProfileFragment : BaseSearchFragment() {
+class ProfileFragment : BaseSearchFragment(), GridListAdapter.Interaction {
+
+    private lateinit var recyclerAdapter: GridListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +44,7 @@ class ProfileFragment : BaseSearchFragment() {
         setHasOptionsMenu(true)
         subscribeObservers()
         stateChangeListener.expandAppBar()
+        initRecyclerView()
     }
 
     fun subscribeObservers() {
@@ -47,7 +58,27 @@ class ProfileFragment : BaseSearchFragment() {
                             viewState.viewProfileFields.profile?.let { profile ->
                                 Log.d(TAG, "ProfileFragment, DataState: ${profile}")
                                 viewModel.setProfile(profile)
+                                loadImages()
                             }
+
+                            viewState.viewProfileFields.profileStories?.let { stories ->
+                                Log.d(TAG, "ProfileFragment, DataState: ${stories}")
+                                viewModel.handleIncomingProfileStoryListData(viewState)
+                            }
+                        }
+                    }
+                }
+
+                dataState.error?.let { event ->
+                    event.peekContent().response.message?.let {
+                        if (ErrorHandling.isPaginationDone(it)) {
+
+                            // handle the error message event so it doesn't display in UI
+                            event.getContentIfNotHandled()
+
+                            // set query exhausted to update RecyclerView with
+                            // "No more results..." list item
+                            viewModel.setProfileStoryListQueryExhausted(true)
                         }
                     }
                 }
@@ -57,6 +88,19 @@ class ProfileFragment : BaseSearchFragment() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
             viewState.viewProfileFields.profile?.let { profile ->
                 setProfileProperties(profile)
+            }
+
+            viewState.viewProfileFields.profileStories?.let { stories ->
+                Log.d(TAG, "ProfileFragment, ViewState: ${stories}")
+                recyclerAdapter.apply {
+                    preloadGlideImages(
+                        requestManager = requestManager,
+                        list = stories
+                    )
+                    submitList(
+                        storyList = stories
+                    )
+                }
             }
         })
     }
@@ -115,6 +159,47 @@ class ProfileFragment : BaseSearchFragment() {
 
         follow.isVisible = profile.isFollowing
         unfollow.isVisible = !profile.isFollowing
+    }
+
+    private fun loadImages() {
+        viewModel.setStateEvent(StoryStateEvent.GetProfileStoriesEvent())
+    }
+
+    private fun initRecyclerView() {
+
+        user_stories_recyclerview.apply {
+            layoutManager = GridLayoutManager(this@ProfileFragment.context, 3)
+            val gridSpacingItemDecoration = GridSpacingItemDecoration(10)
+            removeItemDecoration(gridSpacingItemDecoration) // does nothing if not applied already
+            addItemDecoration(gridSpacingItemDecoration)
+
+            recyclerAdapter =
+                GridListAdapter(requestManager, this@ProfileFragment)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastPosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastPosition == recyclerAdapter.itemCount.minus(1)) {
+                        Log.d(TAG, "AccountFragment: attempting to load next page...")
+                        viewModel.nextProfileStoryPage()
+                    }
+                }
+            })
+            adapter = recyclerAdapter
+        }
+    }
+
+    override fun onItemSelected(position: Int, item: StoryPost) {
+        viewModel.setStoryPost(item)
+        //findNavController().navigate(R.id.action_profileFragment2_to_viewStoryFragment)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // clear references (can leak memory)
+        user_stories_recyclerview.adapter = null
     }
 
     override fun onResume() {

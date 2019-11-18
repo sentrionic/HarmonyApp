@@ -118,6 +118,17 @@ constructor(
                 }?: AbsentLiveData.create()
             }
 
+            is GetProfileStoriesEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    storyRepository.getProfileStories(
+                        authToken = authToken,
+                        username = getProfile().username,
+                        filterAndOrder = getOrder() + getFilter(),
+                        page = getProfileStoryListPage()
+                    )
+                }?: AbsentLiveData.create()
+            }
+
             is GetStoryPostComments -> {
                 return sessionManager.cachedToken.value?.let { authToken ->
                     commentRepository.searchComments(
@@ -153,14 +164,6 @@ constructor(
                 }
             }
         }
-    }
-
-    fun saveFilterOptions(filter: String, order: String) {
-        editor.putString(STORY_FILTER, filter)
-        editor.apply()
-
-        editor.putString(STORY_ORDER, order)
-        editor.apply()
     }
 
     override fun initNewViewState(): StoryViewState {

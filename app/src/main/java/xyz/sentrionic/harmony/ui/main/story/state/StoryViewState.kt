@@ -47,7 +47,11 @@ data class StoryViewState (
     data class ViewProfileField(
         var profile: Profile? = null,
         var isFollowing: Boolean = false,
-        var username: String? = null
+        var username: String? = null,
+        var profileStories: List<StoryPost>? = null,
+        var page: Int = 1,
+        var isQueryInProgress: Boolean = false,
+        var isQueryExhausted: Boolean = false
     )
 
     data class ViewCommentsFields(

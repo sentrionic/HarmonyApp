@@ -118,6 +118,24 @@ fun StoryViewModel.getUserPage(): Int{
     }
 }
 
+fun StoryViewModel.getProfileStoryListPage(): Int{
+    getCurrentViewStateOrNew().let{
+        return it.viewProfileFields.page
+    }
+}
+
+fun StoryViewModel.getIsProfileStoryListQueryInProgress(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.viewProfileFields.isQueryInProgress
+    }
+}
+
+fun StoryViewModel.getIsProfileStoryListQueryExhausted(): Boolean {
+    getCurrentViewStateOrNew().let {
+        return it.viewProfileFields.isQueryExhausted
+    }
+}
+
 /**
  * Comment Getters
  */
