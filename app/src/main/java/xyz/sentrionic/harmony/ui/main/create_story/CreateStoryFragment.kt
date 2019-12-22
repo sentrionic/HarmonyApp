@@ -3,9 +3,6 @@ package xyz.sentrionic.harmony.ui.main.create_story
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,11 +10,11 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.chrisbanes.photoview.PhotoView
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_gallery.*
@@ -32,31 +29,12 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.round
-import kotlin.math.sqrt
 
 
-class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelectedListener, View.OnTouchListener {
+class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelectedListener {
 
     private var directories : ArrayList<String> = ArrayList()
     private var selectedImage : String = ""
-
-    // these matrices will be used to move and zoom image
-    private val matrix = Matrix()
-    private val savedMatrix = Matrix()
-
-    // we can be in one of these 3 states
-    private val NONE = 0
-    private val DRAG = 1
-    private val ZOOM = 2
-    private var mode = NONE
-
-    // remember some things for zooming
-    private val start = PointF()
-    private val mid = PointF()
-    private var oldDist = 1f
-    private var lastEvent : FloatArray? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +48,6 @@ class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelecte
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
-        galleryImageView.setOnTouchListener(this)
     }
 
     fun subscribeObservers() {
@@ -259,95 +236,8 @@ class CreateStoryFragment : BaseCreateStoryFragment(), AdapterView.OnItemSelecte
 
     }
 
-
-    private fun setImage(imgURL: String, image: ImageView) {
+    private fun setImage(imgURL: String, image: PhotoView) {
         requestManager.load(imgURL).into(image)
-        galleryImageView.imageMatrix = Matrix().apply {
-            val dWidth = image.drawable.intrinsicWidth
-            val dHeight = image.drawable.intrinsicHeight
-
-            val vWidth = image.measuredWidth
-            val vHeight = image.measuredHeight
-            setTranslate(
-                round((vWidth - dWidth) * 0.5f),
-                round((vHeight - dHeight) * 0.5f)
-            )
-        }
-        matrix.set(galleryImageView.imageMatrix)
-    }
-
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        // handle touch events here
-
-        val view = v as ImageView
-        when (event.action and MotionEvent.ACTION_MASK) {
-
-            MotionEvent.ACTION_DOWN -> {
-                savedMatrix.set(matrix)
-                start.set(event.x, event.y)
-                mode = DRAG
-                lastEvent = null
-            }
-
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                oldDist = spacing(event)
-                if (oldDist > 10f) {
-                    savedMatrix.set(matrix)
-                    midPoint(mid, event)
-                    mode = ZOOM
-                }
-                lastEvent = FloatArray(4)
-                lastEvent!![0] = event.getX(0)
-                lastEvent!![1] = event.getX(1)
-                lastEvent!![2] = event.getY(0)
-                lastEvent!![3] = event.getY(1)
-            }
-
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                mode = NONE
-                lastEvent = null
-            }
-
-            MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
-                matrix.set(savedMatrix)
-                val dx = event.x - start.x
-                val dy = event.y - start.y
-                matrix.postTranslate(dx, dy)
-            } else if (mode == ZOOM) {
-                val newDist = spacing(event)
-                if (newDist > 10f) {
-                    matrix.set(savedMatrix)
-                    val scale = newDist / oldDist
-                    matrix.postScale(scale, scale, mid.x, mid.y)
-                }
-            }
-        }
-
-        view.imageMatrix = matrix
-
-        val canvas = Canvas(Bitmap.createBitmap(view.width, view.height, Bitmap.Config.RGB_565))
-        view.draw(canvas)
-
-        return true
-    }
-
-        /**
-     * Determine the space between the first two fingers
-     */
-    private fun spacing(event : MotionEvent) : Float {
-        val x = event.getX(0) - event.getX(1)
-        val y = event.getY(0) - event.getY(1)
-        val s=x * x + y * y
-        return sqrt(s)
-    }
-
-    /**
-     * Calculate the mid point of the first two fingers
-     */
-    private fun midPoint(point : PointF, event : MotionEvent) {
-        val x = event.getX(0) + event.getX(1)
-        val y = event.getY(0) + event.getY(1)
-        point.set(x / 2, y / 2)
     }
 
 }
